@@ -1,0 +1,65 @@
+  services:
+    openldap:
+      image: osixia/openldap:latest
+      restart: unless-stopped
+      environment:
+        - LDAP_ORGANISATION=${LDAP_ORGANISATION}
+        - LDAP_DOMAIN=${LDAP_DOMAIN}
+        - LDAP_BASE_DN=${LDAP_BASE_DN}
+        - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      ports:
+        - "389:389"
+        # - "636:636" # Uncomment to use also LDAPS
+      volumes:
+        - ./data/slapd/database:/var/lib/ldap
+        - ./data/slapd/config:/etc/ldap/slapd.d
+        - ./src/ou.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-ou.ldif:ro
+        - ./src/users.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/51-users.ldif:ro
+        - ./src/groups.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/52-groups.ldif:ro
+        - ./src/photos.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/53-photos.ldif:ro
+        - ./data/slapd/certs:/container/service/slapd/assets/certs
+      command: --copy-service --loglevel debug
+
+    okta-ldap-agent: 
+      build: ./docker/okta-agent
+      platform: linux/amd64 # Workaround for compatibility with MacOS
+      restart: unless-stopped
+      configs:
+        - source: InstallOktaLDAPAgent.conf
+          target: /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf
+      volumes:
+        - ./data/okta/conf/:/opt/Okta/OktaLDAPAgent/conf/
+        - ./data/okta/lib:/var/lib/oktaldapagent/ # Encryption key
+      stdin_open: true
+      tty: true
+      depends_on:
+        - openldap
+
+    ldap-ui:
+      image: dnknth/ldap-ui
+      environment:
+        LDAP_URL: "ldap://openldap/"
+        BASE_DN: "${LDAP_BASE_DN}"
+        LOGIN_ATTR: "cn"
+        BIND_PATTERN: "cn=%s,${LDAP_BASE_DN}"
+      ports:
+        - 127.0.0.1:5000:5000
+      restart: unless-stopped
+      healthcheck:
+        test: "wget -q -O /dev/null http://127.0.0.1:5000"
+      depends_on:
+        - openldap
+
+  configs:
+    InstallOktaLDAPAgent.conf:
+      content: |
+        orgUrl=https://${OKTA_ORG}/ 
+        ldapHost=openldap
+        ldapAdminDN=cn=admin,${LDAP_BASE_DN}
+        ldapAdminPassword=${LDAP_ADMIN_PASSWORD}
+        ldapPort=389
+        baseDN=${LDAP_BASE_DN}
+        ldapUseSSL=false
+        proxyEnabled=false
+        sslPinningEnabled=true
+        fipsMode=true
