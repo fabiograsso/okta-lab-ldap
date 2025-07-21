@@ -1,4 +1,25 @@
 #!/bin/bash
+#
+# Author: Fabio Grasso <fabio.grasso@okta.com>
+# License: Apache-2.0
+# Version: 1.0.0
+# Description: Script to install and configure:
+#               - OpenLDAP
+#               - Okta LDAP Agent
+#               - ldap-ui
+#
+# Usage: ./oneclickinstall.sh
+# Sample .env file:
+# OKTA_ORG=myorg.okta.com
+# LDAP_ORGANISATION=The Galaxy
+# LDAP_DOMAIN=galaxy.universe
+# LDAP_BASE_DN=dc=galaxy,dc=universe   # Note: must be derived from LDAP_DOMAIN.
+#                                     # I.e LDAP_DOMAIN=galaxy.universe -> LDAP_BASE_DN=dc=galaxy,dc=universe 
+# LDAP_ADMIN_PASSWORD=adminpassword    # Change it!
+# LDAP_CONFIG_PASSWORD=configpassword  # Change it! 
+#
+# -----------------------------------------------------------------------------
+
 set -e
 
 # --- VERIFY OPERATING SYSTEM ---
@@ -20,13 +41,16 @@ if ! ls ./lab-ldap/*.deb 1>/dev/null 2>&1; then
 fi
 
 # --- LOAD CONFIGURATION ---
-if [ ! -f .env ]; then
-    echo "ERROR: Configuration file '.env' not found."
+if [ -f .env ]; then
+  set -a && source .env && set +a
+elif [ -f ../.env ]; then
+  set -a && source ../.env && set +a
+else
+    echo "ERROR: Configuration file '.env' or '../.env' not found."
     echo "Please create it based on the documentation before running."
     exit 1
-else
-    set -a && source .env && set +a
 fi
+
 for var in "OKTA_ORG" "LDAP_ORGANISATION" "LDAP_DOMAIN" "LDAP_ADMIN_PASSWORD"; do
     if [ -z "${!var}" ]; then
         echo "ERROR: Required variable '${var}' was not loaded or is empty."

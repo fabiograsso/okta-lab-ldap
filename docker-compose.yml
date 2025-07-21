@@ -1,3 +1,13 @@
+#
+# Author: Fabio Grasso <fabio.grasso@okta.com>
+# License: Apache-2.0
+# Version: 1.0.0
+# Description: Docker-compose to start a full LDAP Lab with:
+#              - OpenLDAP with some sample data
+#              - Okta LDAP Agent
+#              - ldap-ui (web management utility for LDAP)
+#
+# -----------------------------------------------------------------------------
   services:
     openldap:
       image: osixia/openldap:latest
