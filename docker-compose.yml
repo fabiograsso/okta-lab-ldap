@@ -50,6 +50,7 @@
         - ./data/okta/conf/:/opt/Okta/OktaLDAPAgent/conf/
         - ./data/okta/lib:/var/lib/oktaldapagent/ # Encryption key
         - ./data/okta/logs:/opt/Okta/OktaLDAPAgent/logs
+        - ./data/openldap/certs:/certs:ro
       stdin_open: true
       tty: true
       depends_on:

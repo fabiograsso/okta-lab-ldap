@@ -67,4 +67,3 @@ dn: cn=Dark-Side,ou=Groups,dc=galaxy,dc=universe
 changetype: modify
 add: uniqueMember
 uniqueMember: uid=boba.fett,ou=People,dc=galaxy,dc=universe
-

@@ -1,6 +1,7 @@
 #-------------------------------------------------
 # GROUPS
 #-------------------------------------------------
+
 dn: cn=Light-Side,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames

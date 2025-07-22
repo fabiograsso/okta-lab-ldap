@@ -1,4 +1,6 @@
-# Root domain
+#-------------------------------------------------
+# ROOT Domain
+#-------------------------------------------------
 dn: dc=galaxy,dc=universe
 objectClass: top
 objectClass: domain

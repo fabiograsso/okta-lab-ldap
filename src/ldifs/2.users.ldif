@@ -1,6 +1,9 @@
 #-------------------------------------------------
-# USERS - LIGHT SIDE
+# USERS
 #-------------------------------------------------
+
+# --- LIGHT SIDE ---
+
 dn: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
 objectClass: inetOrgPerson
 cn: Luke Skywalker

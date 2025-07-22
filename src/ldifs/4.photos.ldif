@@ -1,3 +1,7 @@
+#-------------------------------------------------
+# PHOTOS
+#-------------------------------------------------
+
 dn: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
 changetype: modify
 add: jpegPhoto

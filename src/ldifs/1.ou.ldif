@@ -1,6 +1,7 @@
 #-------------------------------------------------
 # OU
 #-------------------------------------------------
+
 dn: ou=People,dc=galaxy,dc=universe
 objectClass: organizationalUnit
 ou: People
