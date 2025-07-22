@@ -10,7 +10,7 @@ mail: jarjar.binks@atko.email
 userPassword: {SSHA}P@ssword2024!
 title: Junior Representative
 departmentNumber: GUNGAN-GRAND-ARMY
-o: {{ LDAP_ORGANISATION }}
+o: Resistance
 postalAddress: Otoh Gunga, Naboo
 displayName: Jar Jar
 employeeNumber: 10030
@@ -26,7 +26,7 @@ mail: boba.fett@atko.email
 userPassword: {SSHA}P@ssword2024!
 title: Bounty Hunter
 departmentNumber: BOUNTY-HUNTERS-GUILD
-o: {{ LDAP_ORGANISATION }}
+o: Empire
 postalAddress: Slave I, Outer Rim
 displayName: Boba Fett
 employeeNumber: 8084

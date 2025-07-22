@@ -8,14 +8,19 @@ LABEL org.opencontainers.image.source="https://github.com/fabiograsso/okta-lab-r
 LABEL org.opencontainers.image.description="Okta LDAP Agent"
 
 # Install dependencies
-RUN apt-get update && apt-get install -y openjdk-11-jre-headless curl sudo bash-completion && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
 
 # Copy the agent installer into the image
 COPY OktaLDAPAgent*.deb /tmp/okta_agent.deb
 
 # Install the agent
-RUN dpkg -i /tmp/okta_agent.deb
+RUN dpkg -i /tmp/okta_agent.deb && rm /tmp/okta_agent.deb
 
-# The agent will be started by the docker-compose command
+# Healthcheck custom script + entrypoint
+COPY healthcheck.sh /usr/local/bin/healthcheck.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/healthcheck.sh /usr/local/bin/entrypoint.sh
 
-CMD bash -c "/opt/Okta/OktaLDAPAgent/scripts/service_script.sh precheck && /opt/Okta/OktaLDAPAgent/scripts/OktaLDAPAgent && tail -f /opt/Okta/OktaLDAPAgent/logs/agent.log"
+HEALTHCHECK --start-period=10s CMD /usr/local/bin/healthcheck.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -6,30 +6,39 @@
 #              - OpenLDAP with some sample data
 #              - Okta LDAP Agent
 #              - ldap-ui (web management utility for LDAP)
+#              - openssl (to generate the LDAPS certificate)
 #
 # -----------------------------------------------------------------------------
   services:
     openldap:
-      image: osixia/openldap:latest
+      build: ./docker/openldap
       restart: unless-stopped
       environment:
-        - LDAP_ORGANISATION=${LDAP_ORGANISATION}
-        - LDAP_DOMAIN=${LDAP_DOMAIN}
-        - LDAP_BASE_DN=${LDAP_BASE_DN}
+        - LDAP_ROOT=${LDAP_BASE_DN}
         - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+        - LDAP_PORT_NUMBER=389  #Default: 1389 (non privileged port)
+        - LDAP_ENABLE_TLS=yes
+        - LDAP_LDAPS_PORT_NUMBER=636 #Default: 1636 (non privileged port)
+        - LDAP_TLS_CERT_FILE=/certs/cert.crt
+        - LDAP_TLS_KEY_FILE=/certs/cert.key
+        - LDAP_TLS_CA_FILE=/certs/cert.crt
+        - LDAP_SKIP_DEFAULT_TREE=yes
+        - LDAP_CONFIG_ADMIN_ENABLED=yes
+        - LDAP_CONFIG_ADMIN_USERNAME=config
+        - LDAP_CONFIG_ADMIN_PASSWORD=${LDAP_CONFIG_PASSWORD}
       ports:
         - "389:389"
-        # - "636:636" # Uncomment to use also LDAPS
+        - "636:636"
       volumes:
-        - ./data/slapd/database:/var/lib/ldap
-        - ./data/slapd/config:/etc/ldap/slapd.d
-        - ./src/ou.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-ou.ldif:ro
-        - ./src/users.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/51-users.ldif:ro
-        - ./src/groups.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/52-groups.ldif:ro
-        - ./src/photos.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/53-photos.ldif:ro
-        - ./data/slapd/certs:/container/service/slapd/assets/certs
-      command: --copy-service --loglevel debug
-
+        - ./data/openldap/:/bitnami/openldap
+        - ./src/ldifs:/ldifs:ro
+        - ./data/openldap/certs:/certs
+      healthcheck:
+        test: ["CMD", "ldapsearch", "-Y", "EXTERNAL", "-H", "ldapi:///", "-b", "", "-s", "base"]
+        start_period: 5s
+        timeout: 3s
+        retries: 10
+       
     okta-ldap-agent: 
       build: ./docker/okta-agent
       platform: linux/amd64 # Workaround for compatibility with MacOS
@@ -40,25 +49,30 @@
       volumes:
         - ./data/okta/conf/:/opt/Okta/OktaLDAPAgent/conf/
         - ./data/okta/lib:/var/lib/oktaldapagent/ # Encryption key
+        - ./data/okta/logs:/opt/Okta/OktaLDAPAgent/logs
       stdin_open: true
       tty: true
       depends_on:
-        - openldap
+        openldap:
+          condition: service_healthy
 
     ldap-ui:
       image: dnknth/ldap-ui
       environment:
-        LDAP_URL: "ldap://openldap/"
-        BASE_DN: "${LDAP_BASE_DN}"
-        LOGIN_ATTR: "cn"
-        BIND_PATTERN: "cn=%s,${LDAP_BASE_DN}"
+        - LDAP_URL=ldaps://openldap:636
+        - BASE_DN=${LDAP_BASE_DN}
+        - LOGIN_ATTR=uid   # def uid
+        - BIND_PATTERN=cn=%s,${LDAP_BASE_DN}
+        - INSECURE_TLS=true
+        - SCHEMA_DN=cn=subSchema
       ports:
         - 127.0.0.1:5000:5000
       restart: unless-stopped
       healthcheck:
-        test: "wget -q -O /dev/null http://127.0.0.1:5000"
+        test: ["CMD", "nc", "-z", "127.0.0.1", "5000"]
       depends_on:
-        - openldap
+        openldap:
+          condition: service_healthy
 
   configs:
     InstallOktaLDAPAgent.conf:
@@ -67,9 +81,9 @@
         ldapHost=openldap
         ldapAdminDN=cn=admin,${LDAP_BASE_DN}
         ldapAdminPassword=${LDAP_ADMIN_PASSWORD}
-        ldapPort=389
+        ldapPort=636
         baseDN=${LDAP_BASE_DN}
-        ldapUseSSL=false
+        ldapUseSSL=true
         proxyEnabled=false
         sslPinningEnabled=true
         fipsMode=true

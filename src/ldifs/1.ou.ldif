@@ -1,10 +1,10 @@
 #-------------------------------------------------
 # OU
 #-------------------------------------------------
-dn: ou=People,{{ LDAP_BASE_DN }}
+dn: ou=People,dc=galaxy,dc=universe
 objectClass: organizationalUnit
 ou: People
 
-dn: ou=Groups,{{ LDAP_BASE_DN }}
+dn: ou=Groups,dc=galaxy,dc=universe
 objectClass: organizationalUnit
 ou: Groups

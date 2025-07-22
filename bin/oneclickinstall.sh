@@ -10,13 +10,6 @@
 #
 # Usage: ./oneclickinstall.sh
 # Sample .env file:
-# OKTA_ORG=myorg.okta.com
-# LDAP_ORGANISATION=The Galaxy
-# LDAP_DOMAIN=galaxy.universe
-# LDAP_BASE_DN=dc=galaxy,dc=universe   # Note: must be derived from LDAP_DOMAIN.
-#                                     # I.e LDAP_DOMAIN=galaxy.universe -> LDAP_BASE_DN=dc=galaxy,dc=universe 
-# LDAP_ADMIN_PASSWORD=adminpassword    # Change it!
-# LDAP_CONFIG_PASSWORD=configpassword  # Change it! 
 #
 # -----------------------------------------------------------------------------
 
@@ -51,7 +44,7 @@ else
     exit 1
 fi
 
-for var in "OKTA_ORG" "LDAP_ORGANISATION" "LDAP_DOMAIN" "LDAP_ADMIN_PASSWORD"; do
+for var in "OKTA_ORG" "LDAP_DOMAIN" "LDAP_ADMIN_PASSWORD"; do
     if [ -z "${!var}" ]; then
         echo "ERROR: Required variable '${var}' was not loaded or is empty."
         echo "Please check your .env file."
@@ -97,15 +90,13 @@ sudo apt-get install -y slapd ldap-utils
 echo "--> Creating LDIF data files..."
 mkdir -p /tmp/ldap-setup
 cp src/*.ldif /tmp/ldap-setup/
-find /tmp/ldap-setup -type f -name "*.ldif" -exec sed -i "s/{{ *LDAP_BASE_DN *}}/${BASE_DN//\//\\/}/g" {} +
-find /tmp/ldap-setup -type f -name "*.ldif" -exec sed -i "s/{{ *LDAP_ORGANISATION *}}/${LDAP_ORGANISATION//\//\\/}/g" {} +
-
 
 # 5. Load LDIF data
 echo "--> Loading data into LDAP..."
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/ou.ldif
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/users.ldif
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/groups.ldif
+ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/1.ou.ldif
+ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/2.users.ldif
+ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/3.groups.ldif
+ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/4.photos.ldif
 
 # 6. Install and Configure ldap-ui
 echo "--> Installing and configuring ldap-ui..."

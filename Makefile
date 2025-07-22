@@ -75,7 +75,7 @@ check-prereqs:
 	fi
 	@echo "  [✔] Okta Agent installer found."
 	@# 2. Check that specific required variables are not empty
-	@for var in OKTA_ORG LDAP_ORGANISATION LDAP_DOMAIN LDAP_BASE_DN LDAP_ADMIN_PASSWORD; do \
+	@for var in OKTA_ORG LDAP_BASE_DN LDAP_ADMIN_PASSWORD; do \
 		if [ -z "$${!var}" ]; then \
 			echo "\033[0;31mERROR: Environment variable '$${var}' is not set or is empty.\033[0m"; \
 			echo "Please check your .env file."; \
