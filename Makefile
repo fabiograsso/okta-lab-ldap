@@ -68,14 +68,14 @@ configure:
 check-prereqs:
 	@echo "--> Checking prerequisites..."
 	@# 1. Check for the Okta agent installer file
-	@if ! ls ./docker/okta-agent/OktaLDAPAgent-*.deb 1>/dev/null 2>&1; then \
+	@if ! ls ./packages/OktaLDAPAgent-*.deb 1>/dev/null 2>&1; then \
 		echo "\033[0;31mERROR: Okta Agent installer (.deb) not found!\033[0m"; \
 		echo "Please place the downloaded agent file in the './okta-agent/' directory."; \
 		exit 1; \
 	fi
 	@echo "  [✔] Okta Agent installer found."
 	@# 2. Check that specific required variables are not empty
-	@for var in OKTA_ORG LDAP_BASE_DN LDAP_ADMIN_PASSWORD; do \
+	@for var in OKTA_ORG LDAP_BASE_DN LDAP_ADMIN_PASSWORD LDAP_CONFIG_PASSWORD; do \
 		if [ -z "$${!var}" ]; then \
 			echo "\033[0;31mERROR: Environment variable '$${var}' is not set or is empty.\033[0m"; \
 			echo "Please check your .env file."; \

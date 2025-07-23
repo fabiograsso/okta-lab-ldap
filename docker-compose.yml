@@ -7,7 +7,6 @@
 #              - Okta LDAP Agent
 #              - ldap-ui (web management utility for LDAP)
 #              - openssl (to generate the LDAPS certificate)
-#
 # -----------------------------------------------------------------------------
   services:
     openldap:
@@ -25,10 +24,11 @@
         - LDAP_SKIP_DEFAULT_TREE=yes
         - LDAP_CONFIG_ADMIN_ENABLED=yes
         - LDAP_CONFIG_ADMIN_USERNAME=config
-        - LDAP_CONFIG_ADMIN_PASSWORD=${LDAP_CONFIG_PASSWORD}
+        - LDAP_CONFIG_PASSWORD=${LDAP_CONFIG_PASSWORD}
       ports:
         - "389:389"
         - "636:636"
+        - "1636:636"
       volumes:
         - ./data/openldap/:/bitnami/openldap
         - ./src/ldifs:/ldifs:ro
@@ -83,6 +83,7 @@
         ldapAdminDN=cn=admin,${LDAP_BASE_DN}
         ldapAdminPassword=${LDAP_ADMIN_PASSWORD}
         ldapPort=636
+        ldapSSLPort=636
         baseDN=${LDAP_BASE_DN}
         ldapUseSSL=true
         proxyEnabled=false

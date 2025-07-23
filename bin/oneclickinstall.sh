@@ -14,6 +14,12 @@
 # -----------------------------------------------------------------------------
 
 set -e
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+BASE_DIR==$(dirname "$SCRIPT_DIR")
+
+echo $SCRIPT_DIR
+echo $BASE_DIR
+pause
 
 # --- VERIFY OPERATING SYSTEM ---
 if [ -f /etc/os-release ]; then
@@ -27,24 +33,24 @@ else
     echo "ERROR: Cannot determine OS version. /etc/os-release not found."
     exit 1
 fi
-if ! ls ./lab-ldap/*.deb 1>/dev/null 2>&1; then
-    echo "ERROR: No Okta LDAP Agent installer (.deb file) found in the ./lab-ldap/ directory."
+if ! ls "$BASE_DIR/packages/*.deb" 1>/dev/null 2>&1; then
+    echo "ERROR: No Okta LDAP Agent installer (.deb file) found in the '$BASE_DIR/packages/' directory."
     echo "Please download the agent from your Okta Admin Console and place it in that folder before running this script."
     exit 1
 fi
 
 # --- LOAD CONFIGURATION ---
-if [ -f .env ]; then
-  set -a && source .env && set +a
-elif [ -f ../.env ]; then
-  set -a && source ../.env && set +a
+if [ -f $SCRIPT_DIR/.env ]; then
+  set -a && source $SCRIPT_DIR/.env && set +a
+elif [ -f $BASE_DIR/.env ]; then
+  set -a && source $BASE_DIR/.env && set +a
 else
-    echo "ERROR: Configuration file '.env' or '../.env' not found."
+    echo "ERROR: Configuration file '.env' not found."
     echo "Please create it based on the documentation before running."
     exit 1
 fi
 
-for var in "OKTA_ORG" "LDAP_DOMAIN" "LDAP_ADMIN_PASSWORD"; do
+for var in "OKTA_ORG" "LDAP_DOMAIN" "LDAP_ADMIN_PASSWORD" "LDAP_CONFIG_PASSWORD"; do
     if [ -z "${!var}" ]; then
         echo "ERROR: Required variable '${var}' was not loaded or is empty."
         echo "Please check your .env file."
@@ -86,17 +92,22 @@ echo "slapd slapd/backend select MDB" | sudo debconf-set-selections
 echo "--> Installing slapd and ldap-utils..."
 sudo apt-get install -y slapd ldap-utils
 
-# 4. Create LDIF files
-echo "--> Creating LDIF data files..."
-mkdir -p /tmp/ldap-setup
-cp src/*.ldif /tmp/ldap-setup/
-
-# 5. Load LDIF data
+# 4. Load LDIF data
 echo "--> Loading data into LDAP..."
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/1.ou.ldif
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/2.users.ldif
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/3.groups.ldif
-ldapadd -x -D "$ADMIN_DN" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ldap-setup/4.photos.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ../src/ldifs/1.ou.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ../src/ldifs/2.users.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ../src/ldifs/3.groups.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ../src/ldifs/4.photos.ldif
+
+# 5. Configure cn=config user
+echo "--> Set cn=config password..."
+sudo ldapmodify -Y EXTERNAL -H ldapi:/// <<EOF
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: $(slappasswd -s "$LDAP_CONFIG_PASSWORD")
+EOF
+
 
 # 6. Install and Configure ldap-ui
 echo "--> Installing and configuring ldap-ui..."
@@ -141,25 +152,28 @@ sudo systemctl enable --now ldap-ui.service
 
 # 7. Okta LDAP Agent Setup
 echo "--> Preparing for Okta LDAP Agent..."
-sudo dpkg -i OktaLDAPAgent-*.deb
 cat > /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf << EOF
 orgUrl=https://$OKTA_ORG
 ldapHost=localhost
 ldapAdminDN=$ADMIN_DN
-ldapPort=389
+ldapPort=636
+ldapSSLPort=636
 baseDN=$BASE_DN
-ldapUseSSL=false
+ldapUseSSL=true
 proxyEnabled=false
 sslPinningEnabled=true
 fipsMode=true
 EOF
+sudo dpkg -i $BASE_DIR/packages/OktaLDAPAgent-*.deb
 
 # 8. Cleanup
 rm -rf /tmp/ldap-setup
 
 echo "--- Installation Finished ---"
 echo ""
-echo "Okta agent pre-configuration file created at /tmp/ldap-setup/InstallOktaLDAPAgent.conf"
+echo "✅ OpenLDAP, ldap-ui, and the Okta LDAP Agent have been successfully installed and configured."
+echo ""
+echo "You can manage your LDAP server via the web at http://<your-server-ip>:5000"
 echo ""
 echo "--- IMPORTANT ---"
 echo "The automated setup is complete. You must now configure the Okta LDAP Agent."
