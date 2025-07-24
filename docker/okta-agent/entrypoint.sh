@@ -1,6 +1,14 @@
 #!/bin/bash
+#
+# Author: Fabio Grasso <fabio.grasso@okta.com>
+# Version: 1.0.0
+# License: Apache-2.0
+# Description: Entrypoint docker script to for the Okta LDAP Agent
+#
+# Usage: ./entrypoint.sh
+#
+# -----------------------------------------------------------------------------
 set -e
-
 echo "
                            ####               ####                              
                            ####               ####                              
@@ -18,7 +26,6 @@ echo "
      ###############       ####      ######   ##########    ############# ######
          ########          ####        #####    ########       ########     ####                                                                       
 "
-
 
 # Import the TLS Certificate
 # Ref: https://help.okta.com/oie/en-us/content/topics/directory/ldap-agent-enable-ldap-ssl.htm

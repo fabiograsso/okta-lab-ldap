@@ -1,6 +1,15 @@
 #!/bin/sh
+#
+# Author: Fabio Grasso <fabio.grasso@okta.com>
+# Version: 1.0.0
+# License: Apache-2.0
+# Description: Entrypoint docker script to for OpenLDAP with certificate
+#              management.
+#
+# Usage: ./entrypoint.sh
+#
+# -----------------------------------------------------------------------------
 set -e
-
 echo "
                            ####               ####                              
                            ####               ####                              
@@ -18,7 +27,6 @@ echo "
      ###############       ####      ######   ##########    ############# ######
          ########          ####        #####    ########       ########     ####                                                                       
 "
-
 
 CERT_FILE_NAME=${CERT_FILE_NAME:-cert.crt}
 CERT_DIR=${CERT_DIR:-/certs}

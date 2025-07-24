@@ -10,10 +10,33 @@
 #
 # Usage: ./oneclickinstall.sh
 # Sample .env file:
+#   OKTA_ORG=myorg.okta.com
+#   LDAP_BASE_DN=dc=galaxy,dc=universe
+#   LDAP_ADMIN_PASSWORD=adminpassword
+#   LDAP_CONFIG_PASSWORD=configpassword
 #
 # -----------------------------------------------------------------------------
-
 set -e
+echo "
+                           ####               ####                              
+                           ####               ####                              
+                           ####               ####                              
+                           ####               ####                              
+       ############        ####      #####    ##########     ###########  ####  
+     ################      ####     ####      ##########   ###################  
+   ######        #####     ####   #####       ####        #####        #######  
+   ####           #####    ####  #####        ####       #####           #####  
+  #####            #####   #########          ####       ####            #####  
+  ####             #####   ##########         ####      #####             ####  
+  #####            ####    ####  #####        ####       ####            #####  
+   #####          #####    ####   ######      ####       #####          ######  
+    ######      ######     ####     #####     ####        #######     ########  
+     ###############       ####      ######   ##########    ############# ######
+         ########          ####        #####    ########       ########     ####                                                                       
+"
+
+# --- SCRIPT START ---
+
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 BASE_DIR=$(dirname "$SCRIPT_DIR")
 
@@ -56,9 +79,7 @@ for var in "OKTA_ORG" "BASE_DN" "LDAP_ADMIN_PASSWORD" "LDAP_CONFIG_PASSWORD"; do
     fi
 done
 
-# --- SCRIPT START ---
-
-BASE_DN=$(echo "$LDAP_DOMAIN" | sed 's/\./,dc=/g' | sed 's/^/dc=/')
+BASE_DN="$BASE_DN"
 LDAP_DOMAIN=$(echo "$BASE_DN" | sed -E 's/dc=([^,]+),?/\1./g' | sed 's/\.$//')
 ADMIN_DN="cn=admin,$BASE_DN"
 
@@ -72,7 +93,7 @@ echo "  - LDAP_ADMIN_PASSWORD: $LDAP_ADMIN_PASSWORD"
 echo "  - LDAP_CONFIG_PASSWORD: $LDAP_CONFIG_PASSWORD"
 echo ""
 
-# Ask for confirmation if not silent
+# --- Ask for confirmation if not silent ---
 if [[ ! " $* " =~ " -s " && ! " $* " =~ " --silent " ]]; then
   read -p "Continue? [Y/n] " CONFIRM
   CONFIRM=${CONFIRM:-y}  # Default to 'y' if empty
@@ -94,13 +115,13 @@ echo "--> Preparing system..."
 sudo apt update && sudo apt upgrade -y
 sudo apt-get install -y debconf-utils
 
-# Check if UFW is enabled
-ufw_status=$(sudo ufw status | grep -i "Status: active")
+
+ufw_status=$(sudo ufw status | grep -i "Status: active") # Check if UFW is enabled
 if [ -n "$ufw_status" ]; then
     echo "UFW is enabled. Adding the needed rules."
     sudo ufw allow 389/tcp   # LDAP
     sudo ufw allow 636/tcp   # LDAPS
-    sudo ufw allow 5000/tcp  # Custom API or web service
+    sudo ufw allow 5000/tcp  # Web Management tool
     sudo ufw reload
 fi
 
