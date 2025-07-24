@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.source="https://github.com/fabiograsso/okta-lab-r
 LABEL org.opencontainers.image.description="Okta LDAP Agent"
 
 # Install dependencies
-RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
+RUN apt-get update && apt-get install -y sudo net-tools && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
 
 # Copy the agent installer into the image
 COPY ../packages/OktaLDAPAgent*.deb /tmp/okta_agent.deb

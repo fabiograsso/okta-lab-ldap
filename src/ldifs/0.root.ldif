@@ -1,5 +1,5 @@
 #-------------------------------------------------
-# ROOT Domain
+# Create ROOT Domain
 #-------------------------------------------------
 dn: dc=galaxy,dc=universe
 objectClass: top
