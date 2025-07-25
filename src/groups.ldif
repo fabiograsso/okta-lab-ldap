@@ -1,0 +1,87 @@
+#-------------------------------------------------
+# GROUPS
+#-------------------------------------------------
+dn: cn=Light-Side,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Light-Side
+description: Members of the Light Side of the Force
+uniqueMember: uid=luke.skywalker,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=leia.organa,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=han.solo,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=obiwan.kenobi,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=yoda,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=chewbacca,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=padme.amidala,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=lando.calrissian,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=qui-gon.jinn,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=mace.windu,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=c-3po,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=r2-d2,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Dark-Side,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Dark-Side
+description: Sith Lords and Dark Side Force users
+uniqueMember: uid=darth.vader,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=darth.sidious,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=wilhuff.tarkin,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Droids,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Droids
+description: Intelligent mechanical droid characters
+uniqueMember: uid=c-3po,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=r2-d2,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Rebel-Alliance,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Rebel-Alliance
+description: Members of the Rebel Alliance fighting the Galactic Empire
+uniqueMember: uid=luke.skywalker,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=leia.organa,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=han.solo,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=chewbacca,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=obiwan.kenobi,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=r2-d2,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=c-3po,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=lando.calrissian,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Galactic-Empire,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Galactic-Empire
+description: Commanders and officers of the Galactic Empire
+uniqueMember: uid=darth.vader,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=darth.sidious,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=wilhuff.tarkin,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Jedi-Council,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Jedi-Council
+description: Senior members of the Jedi Council
+uniqueMember: uid=luke.skywalker,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=obiwan.kenobi,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=yoda,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=qui-gon.jinn,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=mace.windu,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Pilots,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Pilots
+description: Skilled pilots from various factions
+uniqueMember: uid=luke.skywalker,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=han.solo,ou=People,{{ LDAP_BASE_DN }}
+uniqueMember: uid=darth.vader,ou=People,{{ LDAP_BASE_DN }}
+
+dn: cn=Naboo-Delegation,ou=Groups,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Naboo-Delegation
+description: Naboo planetary representatives and leaders
+uniqueMember: uid=padme.amidala,ou=People,{{ LDAP_BASE_DN }}
