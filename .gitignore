@@ -1,7 +1,7 @@
-*.deb
-old/
-data/
 .DS_Store
-test/
-tmp/
+*.deb
+data/*
+tmp/*
 .env
+packages/*
+!.gitkeep

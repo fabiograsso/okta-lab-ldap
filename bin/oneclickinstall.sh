@@ -17,30 +17,28 @@
 #
 # -----------------------------------------------------------------------------
 set -e
-echo "
-                           ####               ####                              
-                           ####               ####                              
-                           ####               ####                              
-                           ####               ####                              
-       ############        ####      #####    ##########     ###########  ####  
-     ################      ####     ####      ##########   ###################  
-   ######        #####     ####   #####       ####        #####        #######  
-   ####           #####    ####  #####        ####       #####           #####  
-  #####            #####   #########          ####       ####            #####  
-  ####             #####   ##########         ####      #####             ####  
-  #####            ####    ####  #####        ####       ####            #####  
-   #####          #####    ####   ######      ####       #####          ######  
-    ######      ######     ####     #####     ####        #######     ########  
-     ###############       ####      ######   ##########    ############# ######
-         ########          ####        #####    ########       ########     ####                                                                       
+echo "                                                                
+                  ████          ████                              
+                  ████          ████                              
+       █████      ████    ████  █████        ████   ███           
+    ██████████    ████   █████  ████████  █████████████           
+  ██████████████  ████  █████   █████   ███████████████           
+ █████      █████ █████████     ████    ████       ████           
+ ████        ████ ████████      ████   ████        ████           
+ ████        ████ ██████████    ████    ████       ████           
+  █████    ██████ ████  █████   ████    █████    ██████           
+   █████████████  ████   ██████ ████████ ███████████████         
+    ██████████    ████     █████ ███████   ████████ █████         
+
 "
 
 # --- SCRIPT START ---
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 BASE_DIR=$(dirname "$SCRIPT_DIR")
+exec &> >(tee $SCRIPT_DIR/oneclickinstall.log) #logfile
 
-mkdir /tmp/ldap-setup/
+mkdir -p /tmp/ldap-setup/
 
 # --- VERIFY OPERATING SYSTEM ---
 if [ -f /etc/os-release ]; then
@@ -71,7 +69,7 @@ else
     exit 1
 fi
 
-for var in "OKTA_ORG" "BASE_DN" "LDAP_ADMIN_PASSWORD" "LDAP_CONFIG_PASSWORD"; do
+for var in "OKTA_ORG" "LDAP_BASE_DN" "LDAP_ADMIN_PASSWORD" "LDAP_CONFIG_PASSWORD"; do
     if [ -z "${!var}" ]; then
         echo "ERROR: Required variable '${var}' was not loaded or is empty."
         echo "Please check your .env file."
@@ -79,23 +77,24 @@ for var in "OKTA_ORG" "BASE_DN" "LDAP_ADMIN_PASSWORD" "LDAP_CONFIG_PASSWORD"; do
     fi
 done
 
-BASE_DN="$BASE_DN"
-LDAP_DOMAIN=$(echo "$BASE_DN" | sed -E 's/dc=([^,]+),?/\1./g' | sed 's/\.$//')
-ADMIN_DN="cn=admin,$BASE_DN"
+LDAP_DOMAIN=$(echo "$LDAP_BASE_DN" | sed -E 's/dc=([^,]+),?/\1./g' | sed 's/\.$//')
+LDAP_ADMIN_DN="cn=admin,$LDAP_BASE_DN"
 
 echo "--- Starting OpenLDAP and Utilities Installation on Ubuntu 24.04 ---"
 echo ""
 echo "Using the following settings: "
-echo "  - BASE_DN: $BASE_DN"
+echo "  - LDAP_BASE_DN: $LDAP_BASE_DN"
 echo "  - LDAP_DOMAIN: $LDAP_DOMAIN"
-echo "  - ADMIN_DN: $ADMIN_DN"
+echo "  - LDAP_ADMIN_DN: $LDAP_ADMIN_DN"
 echo "  - LDAP_ADMIN_PASSWORD: $LDAP_ADMIN_PASSWORD"
 echo "  - LDAP_CONFIG_PASSWORD: $LDAP_CONFIG_PASSWORD"
 echo ""
 
 # --- Ask for confirmation if not silent ---
-if [[ ! " $* " =~ " -s " && ! " $* " =~ " --silent " ]]; then
-  read -p "Continue? [Y/n] " CONFIRM
+SILENT=false
+[[ " $* " =~ " -s " || " $* " =~ " --silent " ]] && SILENT=true
+if ! $SILENT; then
+  read -t 30 -p "Continue? [Y/n] (auto-accepts in 30s) " CONFIRM
   CONFIRM=${CONFIRM:-y}  # Default to 'y' if empty
   case "$CONFIRM" in
     [yY][eE][sS]|[yY]) 
@@ -112,12 +111,10 @@ fi
 
 # 1. System Preparation
 echo "--> Preparing system..."
-sudo apt update && sudo apt upgrade -y
-sudo apt-get install -y debconf-utils
+! $SILENT && sleep 1
+sudo apt-get update && sudo apt-get install -y debconf-utils
 
-
-ufw_status=$(sudo ufw status | grep -i "Status: active") # Check if UFW is enabled
-if [ -n "$ufw_status" ]; then
+if sudo ufw status | grep -q -i "Status: active"; then # Check if UFW is enabled
     echo "UFW is enabled. Adding the needed rules."
     sudo ufw allow 389/tcp   # LDAP
     sudo ufw allow 636/tcp   # LDAPS
@@ -197,10 +194,10 @@ Type=simple
 User=ldap-ui
 Group=ldap-ui
 Restart=always
-Environment=BASE_DN=$BASE_DN
+Environment=BASE_DN=$LDAP_BASE_DN
 Environment=LDAP_URL=ldap://127.0.0.1
 Environment=LOGIN_ATTR=cn"
-Environment=BIND_PATTERN=cn=%s,$BASE_DN
+Environment=BIND_PATTERN=cn=%s,$LDAP_BASE_DN
 ProtectHome=true
 ProtectSystem=strict
 SystemCallFilter=@system-service
@@ -215,22 +212,22 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now ldap-ui.service
 #sudo systemctl start ldap-ui.service
 
-# 7. Okta LDAP Agent Setupldap-ui.service
+# 7. Okta LDAP Agent
 echo "--> Preparing for Okta LDAP Agent..."
+sudo dpkg -i $BASE_DIR/packages/OktaLDAPAgent-*.deb
 sudo tee /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf > /dev/null <<EOF
 orgUrl=https://$OKTA_ORG/
 ldapHost=localhost
-ldapAdminDN=$ADMIN_DN
+ldapAdminDN=$LDAP_ADMIN_DN
 ldapPort=636
 ldapSSLPort=636
-baseDN=$BASE_DN
+baseDN=$LDAP_BASE_DN
 ldapUseSSL=true
 proxyEnabled=false
 sslPinningEnabled=true
 fipsMode=true
 EOF
 sudo chown OktaLDAPService:OktaLDAPService /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf
-sudo dpkg -i $BASE_DIR/packages/OktaLDAPAgent-*.deb
 
 # 8. Cleanup
 rm -rf /tmp/ldap-setup
