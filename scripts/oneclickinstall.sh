@@ -169,6 +169,11 @@ olcAccess: {0}to *
   by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
   by dn.base="$LDAP_ADMIN_DN" manage
   by * none
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: mail,surname,givenname eq,pres,sub
 EOF
 
 echo "🤖 Set cn=config password..."
@@ -177,12 +182,11 @@ dn: olcDatabase={0}config,cn=config
 changetype: modify
 replace: olcRootPW
 olcRootPW: $(slappasswd -s "$LDAP_CONFIG_PASSWORD")
---
-replace: olcRootDN
-olcRootDN: cn=config
 EOF
 echo "✅ Root access, cn=admin, and cn=config account configured."
 
+# Rebuild all indexes
+sudo systemctl stop slapd && sudo slapindex -F /etc/ldap/slapd.d && sudo systemctl start slapd
 
 # 5. Load LDIF data
 
@@ -226,10 +230,6 @@ olcTLSVerifyClient: never
 EOF
 sudo sed -i 's#^SLAPD_SERVICES=.*#SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"#' /etc/default/slapd && \
 sudo systemctl restart slapd
-
-TLS_CACERT      /etc/ldap/sasl2/ca-certificates.crt
-TLS_REQCERT     allow
-
 
 # 6. Install and Configure ldap-ui
 
