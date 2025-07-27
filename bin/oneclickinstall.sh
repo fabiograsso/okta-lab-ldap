@@ -112,7 +112,7 @@ fi
 # 1. System Preparation
 echo "--> Preparing system..."
 ! $SILENT && sleep 1
-sudo apt-get update && sudo apt-get install -y debconf-utils
+sudo apt-get update -qq && sudo apt-get install -qq -y debconf-utils
 
 if sudo ufw status | grep -q -i "Status: active"; then # Check if UFW is enabled
     echo "UFW is enabled. Adding the needed rules."
@@ -124,17 +124,35 @@ fi
 
 # 2. Pre-configure slapd installation
 echo "--> Pre-configuring slapd..."
-echo "slapd slapd/domain string $LDAP_DOMAIN" | sudo debconf-set-selections
-echo "slapd slapd/organization string $LDAP_ORGANIZATION" | sudo debconf-set-selections
-echo "slapd slapd/password password $LDAP_ADMIN_PASSWORD" | sudo debconf-set-selections
-echo "slapd slapd/password_again password $LDAP_ADMIN_PASSWORD" | sudo debconf-set-selections
-echo "slapd slapd/backend select MDB" | sudo debconf-set-selections
+cat <<EOF | debconf-set-selections
+slapd slapd/domain string $LDAP_DOMAIN
+slapd slapd/organization string $LDAP_ORGANIZATION
+slapd slapd/password1 password $LDAP_ADMIN_PASSWORD
+slapd slapd/password2 password $LDAP_ADMIN_PASSWORD
+slapd slapd/internal/adminpw password $LDAP_ADMIN_PASSWORD
+slapd slapd/internal/generated_adminpw password $LDAP_ADMIN_PASSWORD
+slapd slapd/backend select MDB
+slapd slapd/no_configuration boolean false
+slapd slapd/purge_database boolean true
+slapd slapd/move_old_database boolean true
+slapd slapd/allow_ldap_v2 boolean false
+slapd slapd/dump_database select when needed
+slapd slapd/dump_database_destdir string /var/lib/ldap/backups/slapd-VERSION
+EOF
 
 # 3. Install OpenLDAP
 echo "--> Installing slapd and ldap-utils..."
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y slapd ldap-utils
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -y slapd ldap-utils
 
 # 4. Configure cn=config user and root access
+echo "--> Set cn=admin,dc=galaxy,dc=universe..."
+sudo ldapmodify -Y EXTERNAL -H ldapi:/// <<EOF
+dn: cn=admin,dc=galaxy,dc=universe
+changetype: modify
+replace: userPassword
+userPassword: $(slappasswd -s "$LDAP_ADMIN_PASSWORD")
+EOF
+
 echo "--> Set cn=config password..."
 sudo ldapmodify -Y EXTERNAL -H ldapi:/// <<EOF
 dn: olcDatabase={0}config,cn=config
@@ -172,7 +190,7 @@ sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $BASE_DIR/src/ldifs/4.photos.ldif
 
 # 6. Install and Configure ldap-ui
 echo "--> Installing and configuring ldap-ui..."
-sudo apt-get install -y python3-dev libldap2-dev libsasl2-dev ldap-utils \
+sudo apt-get install -qq -y python3-dev libldap2-dev libsasl2-dev ldap-utils \
                         tox lcov valgrind python3-pip python3-venv python3-ldap
 sudo useradd -r -s /bin/false ldap-ui
 sudo mkdir /opt/ldap-ui

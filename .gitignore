@@ -3,5 +3,3 @@
 data/*
 tmp/*
 .env
-packages/*
-!.gitkeep

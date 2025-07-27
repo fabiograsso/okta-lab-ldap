@@ -1,4 +1,4 @@
-FROM debian:12-slim
+FROM ubuntu:24.04
 
 LABEL maintainer="Fabio Gasso <fabio.grasso@okta.com>"
 LABEL org.opencontainers.image.authors="Fabio Gasso <fabio.grasso@okta.com>"
@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.description="Okta LDAP Agent"
 RUN apt-get update -qq && apt-get install -qq -y sudo net-tools && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
 
 # Copy the agent installer into the image
-COPY OktaLDAP*.deb /tmp/okta_agent.deb
+COPY ../packages/OktaLDAPAgent*.deb /tmp/okta_agent.deb
 
 # Install the agent
 RUN dpkg -i /tmp/okta_agent.deb && rm /tmp/okta_agent.deb
@@ -19,7 +19,7 @@ RUN dpkg -i /tmp/okta_agent.deb && rm /tmp/okta_agent.deb
 # Healthcheck custom script + entrypoint
 COPY healthcheck.sh /usr/local/bin/healthcheck.sh
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/healthcheck.sh /usr/local/bin/entrypoint.sh
 
 HEALTHCHECK --start-period=10s CMD /usr/local/bin/healthcheck.sh
 
