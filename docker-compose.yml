@@ -12,8 +12,6 @@
     openldap:
       build:
         context: ./docker/openldap
-        args:
-          DEB_URL: ${DEB_URL:-}
       restart: unless-stopped
       environment:
         - LDAP_ROOT=${LDAP_BASE_DN}
@@ -43,7 +41,10 @@
         retries: 10
        
     okta-ldap-agent: 
-      build: ./docker/okta-ldap-agent
+      build:
+        context: ./docker/okta-ldap-agent
+        args:
+          DEB_URL: ${DEB_URL:-}
       platform: linux/amd64 # Workaround for compatibility with MacOS
       restart: unless-stopped
       configs:
