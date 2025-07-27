@@ -25,25 +25,25 @@ help:
 
 start: check-prereqs
 	@echo "--> Starting containers in detached mode..."
-	@docker-compose up -d
+	@docker compose up -d
 
 star-live: check-prereqs
 	@echo "--> Starting containers in detached mode..."
-	@docker-compose up
+	@docker compose up
 
 stop:
 	@echo "--> Stopping containers..."
-	@docker-compose down
+	@docker compose down
 
 restart: stop start
 
 logs:
 	@echo "--> Tailing and following logs..."
-	@docker-compose logs -f --tail=500
+	@docker compose logs -f --tail=500
 
 start-logs: check-prereqs
 	@echo "--> Starting containers and attaching logs..."
-	@docker-compose up -d &
+	@docker compose up -d &
 	@sleep 5
 	@$(MAKE) logs
 
@@ -51,19 +51,19 @@ restart-logs: stop start-logs
 
 rebuild:
 	@echo "--> Forcing a rebuild of all images..."
-	@docker-compose build --no-cache --parallel --pull --force-rm
+	@docker compose build --no-cache --parallel --pull --force-rm
 
 build:
 	@echo "--> Build all images..."
-	@docker-compose build
+	@docker compose build
 
 kill:
 	@echo "--> Killing the containers and remove orphanse"
-	@docker-compose kill --remove-orphans
+	@docker compose kill --remove-orphans
 
 configure:
 	@echo "--> Launching Okta agent configuration script..."
-	@docker-compose exec okta-ldap-agent /opt/Okta/OktaLDAPAgent/scripts/configure_agent.sh
+	@docker compose exec okta-ldap-agent /opt/Okta/OktaLDAPAgent/scripts/configure_agent.sh
 
 check-prereqs:
 	@echo "--> Checking prerequisites..."

@@ -29,11 +29,10 @@
       ports:
         - "389:389"
         - "636:636"
-        - "1636:636"
       volumes:
         - ./data/openldap/:/bitnami/openldap
         - ./src/ldifs:/ldifs:ro
-        - ./data/openldap/certs:/certs
+        - ./data/certs:/certs:rw
       healthcheck:
         test: ["CMD", "ldapsearch", "-Y", "EXTERNAL", "-H", "ldapi:///", "-b", "", "-s", "base"]
         start_period: 5s
@@ -54,7 +53,7 @@
         - ./data/okta/conf/:/opt/Okta/OktaLDAPAgent/conf/
         - ./data/okta/lib:/var/lib/oktaldapagent/ # Encryption key
         - ./data/okta/logs:/opt/Okta/OktaLDAPAgent/logs
-        - ./data/openldap/certs:/certs:ro
+        - ./data/certs:/certs:ro
       stdin_open: true
       tty: true
       depends_on:
@@ -70,6 +69,7 @@
         - BIND_PATTERN=cn=%s,${LDAP_BASE_DN}
         - INSECURE_TLS=true
         - SCHEMA_DN=cn=subSchema
+        - PYTHONWARNINGS=ignore:Config file '.env' not found.
       ports:
         - 127.0.0.1:5000:5000
       restart: unless-stopped

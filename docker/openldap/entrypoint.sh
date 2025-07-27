@@ -30,7 +30,7 @@ CERT_DIR=${CERT_DIR:-/certs}
 mkdir -p "$CERT_DIR"
 
 if [ ! -f "$CERT_DIR/$CERT_FILE_NAME" ]; then
-  echo "🔐  Generating self-signed certificate..."
+  echo "🔐 Generating self-signed certificate..."
   KEY_FILE_NAME=${KEY_FILE_NAME:-cert.key}
   CERT_DAYS=${CERT_DAYS:-3650}
   CERT_CN=${CERT_CN:-localhost}
@@ -48,9 +48,9 @@ if [ ! -f "$CERT_DIR/$CERT_FILE_NAME" ]; then
     -keyout "$CERT_DIR/$KEY_FILE_NAME" \
     -out "$CERT_DIR/$CERT_FILE_NAME" \
     -subj "$subject"
-  echo "✅   Certificate generated at $CERT_DIR"
+  echo "✅ Certificate generated at $CERT_DIR"
 else
-  echo "📎   Certificate already exists at $CERT_DIR/$CERT_FILE_NAME, skipping generation."
+  echo "📎 Certificate already exists at $CERT_DIR/$CERT_FILE_NAME, skipping generation."
 fi
 
 # Display cert info

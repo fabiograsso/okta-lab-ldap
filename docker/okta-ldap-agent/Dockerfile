@@ -20,11 +20,10 @@ RUN \
         echo "--> Local .deb not found. Downloading from ${DEB_URL}..." && \
         FILENAME=$(basename "${DEB_URL}") && \
         curl -k -fSL -o "/tmp/package/${FILENAME}" "${DEB_URL}"; \
-    fi
-RUN \
+    fi && \
     dpkg -i /tmp/package/*.deb && \
-    rm -rf /tmp/package/ && \
-    chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint.sh
+    chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint.sh && \
+    rm -rf /tmp/package/ && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
 
 HEALTHCHECK --start-period=10s CMD /usr/local/bin/healthcheck.sh
 

@@ -10,7 +10,6 @@ LABEL org.opencontainers.image.description="OpenLDAP with certificate autocreati
 COPY entrypoint.sh /opt/bitnami/scripts/openldap/custom-entrypoint.sh
 USER root
 RUN chmod +x "/opt/bitnami/scripts/openldap/custom-entrypoint.sh"
-USER 1001
 
 # Override entrypoint
 ENTRYPOINT ["/opt/bitnami/scripts/openldap/custom-entrypoint.sh"]
