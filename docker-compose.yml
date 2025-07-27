@@ -10,10 +10,10 @@
 # -----------------------------------------------------------------------------
   services:
     openldap:
-      build: 
-      context: ./docker/openldap
-      args:
-        DEB_URL: ${DEB_URL:-}
+      build:
+        context: ./docker/openldap
+        args:
+          DEB_URL: ${DEB_URL:-}
       restart: unless-stopped
       environment:
         - LDAP_ROOT=${LDAP_BASE_DN}
