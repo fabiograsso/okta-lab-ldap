@@ -40,7 +40,7 @@
         timeout: 3s
         retries: 10
        
-    okta-ldap-agent: 
+    okta-ldap-agent:
       build:
         context: ./docker/okta-ldap-agent
         args:
