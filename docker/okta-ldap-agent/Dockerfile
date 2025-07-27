@@ -24,3 +24,5 @@ RUN chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint
 HEALTHCHECK --start-period=10s CMD /usr/local/bin/healthcheck.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+#ssh -f -N -L 1389:localhost:389 ubuntu@openldap.dyndns.fgfinancial.xyz
