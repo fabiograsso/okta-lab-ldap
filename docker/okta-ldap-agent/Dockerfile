@@ -19,8 +19,9 @@ RUN \
     if [ -z "$(find /tmp/package/ -name '*.deb' -print -quit)" ]; then \
         echo "--> Local .deb not found. Downloading from ${DEB_URL}..." && \
         FILENAME=$(basename "${DEB_URL}") && \
-        curl -fSL -o "/tmp/package/${FILENAME}" "${DEB_URL}"; \
-    fi && \
+        curl -k -fSL -o "/tmp/package/${FILENAME}" "${DEB_URL}"; \
+    fi
+RUN \
     dpkg -i /tmp/package/*.deb && \
     rm -rf /tmp/package/ && \
     chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint.sh
