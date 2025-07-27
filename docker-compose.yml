@@ -10,15 +10,19 @@
 # -----------------------------------------------------------------------------
   services:
     openldap:
-      build: ./docker/openldap
+      build: 
+      context: ./docker/openldap
+      args:
+        DEB_URL: ${DEB_URL:-}
       restart: unless-stopped
-      env_file:
-        - .env
       environment:
         - LDAP_ROOT=${LDAP_BASE_DN}
         - LDAP_PORT_NUMBER=389  #Default: 1389 (non privileged port)
         - LDAP_ENABLE_TLS=yes
         - LDAP_LDAPS_PORT_NUMBER=636 #Default: 1636 (non privileged port)
+        - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+        - LDAP_CONFIG_PASSWORD=${LDAP_CONFIG_PASSWORD}
+        - LDAP_ORGANIZATION=${LDAP_ORGANIZATION:-}
         - LDAP_TLS_CERT_FILE=/certs/cert.crt
         - LDAP_TLS_KEY_FILE=/certs/cert.key
         - LDAP_TLS_CA_FILE=/certs/cert.crt
@@ -58,8 +62,6 @@
 
     ldap-ui:
       image: dnknth/ldap-ui
-      env_file:
-        - .env
       environment:
         - LDAP_URL=ldaps://openldap:636
         - BASE_DN=${LDAP_BASE_DN}

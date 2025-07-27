@@ -68,9 +68,9 @@ configure:
 check-prereqs:
 	@echo "--> Checking prerequisites..."
 	@# 1. Check for the Okta agent installer file
-	@if ! ls ./docker/okta-ldap-agent/OktaLDAPAgent-*.deb 1>/dev/null 2>&1; then \
+	@if ! ls ./docker/okta-ldap-agent/package/OktaLDAPAgent-*.deb 1>/dev/null 2>&1; then \
 		echo "\033[0;31mERROR: Okta Agent installer (.deb) not found!\033[0m"; \
-		echo "Please place the downloaded agent file in the './docker/okta-agent/' directory."; \
+		echo "Please place the downloaded agent file in the './docker/okta-agent/package/' directory."; \
 		exit 1; \
 	fi
 	@echo "  [✔] Okta Agent installer found."
