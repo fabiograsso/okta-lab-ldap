@@ -53,8 +53,8 @@ else
     echo "❌ ERROR: Cannot determine OS version. /etc/os-release not found."
     exit 1
 fi
-if ! ls $BASE_DIR/packages/*.deb 1>/dev/null 2>&1; then
-    echo "❌ ERROR: No Okta LDAP Agent installer (.deb file) found in the '$BASE_DIR/packages/' directory."
+if ! ls $BASE_DIR/*.deb 1>/dev/null 2>&1; then
+    echo "❌ ERROR: No Okta LDAP Agent installer (.deb file) found in the '$BASE_DIR' directory."
     echo "Please download the agent from your Okta Admin Console and place it in that folder before running this script."
     exit 1
 fi
@@ -84,7 +84,7 @@ LDAP_ORGANIZATION=${LDAP_ORGANIZATION:-$LDAP_DOMAIN}
 
 echo "→→→ Starting OpenLDAP and Utilities Installation on Ubuntu 24.04 ←←←"
 echo ""
-echo "ℹ️⃗⃗ Using the following settings: "
+echo "ℹ️ Using the following settings: "
 echo "  ▪︎ LDAP_BASE_DN: $LDAP_BASE_DN"
 echo "  ▪︎ LDAP_DOMAIN: $LDAP_DOMAIN"
 echo "  ▪︎ LDAP_ADMIN_DN: $LDAP_ADMIN_DN"
@@ -130,7 +130,7 @@ echo "✅ System preparation complete."
 # 2. Pre-configure slapd and slapd installation
 
 echo "🗄️ Pre-configuring and installing slapd..."
-cat <<EOF | debconf-set-selections
+cat <<EOF | sudo debconf-set-selections
 slapd slapd/domain string $LDAP_DOMAIN
 slapd slapd/organization string $LDAP_ORGANIZATION
 slapd slapd/password1 password $LDAP_ADMIN_PASSWORD
@@ -280,7 +280,7 @@ echo "✅ ldap-ui setup complete. ldap-ui is accessible on port 5000."
 # 7. Okta LDAP Agent
 
 echo "🔐 Install Okta LDAP Agent..."
-sudo dpkg -i $BASE_DIR/packages/OktaLDAPAgent-*.deb
+sudo dpkg -i $BASE_DIR/OktaLDAPAgent-*.deb
 sudo tee /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf > /dev/null <<EOF
 orgUrl=https://$OKTA_ORG/
 ldapHost=localhost
