@@ -37,7 +37,7 @@ echo "
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 BASE_DIR=$(dirname "$SCRIPT_DIR")
-exec &> >(tee $SCRIPT_DIR/oneclickinstall.log) #logfile
+exec &> >(tee "$SCRIPT_DIR/oneclickinstall.log") #logfile
 
 mkdir -p /tmp/ldap-setup/
 
@@ -53,17 +53,17 @@ else
     echo "❌ ERROR: Cannot determine OS version. /etc/os-release not found."
     exit 1
 fi
-if ! ls $BASE_DIR/*.deb 1>/dev/null 2>&1; then
+if ! ls "$BASE_DIR/*.deb" 1>/dev/null 2>&1; then
     echo "❌ ERROR: No Okta LDAP Agent installer (.deb file) found in the '$BASE_DIR' directory."
     echo "Please download the agent from your Okta Admin Console and place it in that folder before running this script."
     exit 1
 fi
 
 # --- LOAD CONFIGURATION ---
-if [ -f $SCRIPT_DIR/.env ]; then
-  set -a && source $SCRIPT_DIR/.env && set +a
-elif [ -f $BASE_DIR/.env ]; then
-  set -a && source $BASE_DIR/.env && set +a
+if [ -f "$SCRIPT_DIR/.env" ]; then
+  set -a && source "$SCRIPT_DIR/.env" && set +a
+elif [ -f "$BASE_DIR/.env" ]; then
+  set -a && source "$BASE_DIR/.env" && set +a
 else
     echo "❌ ERROR: Configuration file '.env' not found."
     echo "Please create it based on the documentation before running."
@@ -96,7 +96,7 @@ echo ""
 SILENT=false
 [[ " $* " =~ " -s " || " $* " =~ " --silent " ]] && SILENT=true
 if ! $SILENT; then
-  read -t 30 -p "Continue? [Y/n] (auto-accepts in 30s) " CONFIRM
+  read -r -t 30 -p "Continue? [Y/n] (auto-accepts in 30s) " CONFIRM
   CONFIRM=${CONFIRM:-y}  # Default to 'y' if empty
   case "$CONFIRM" in
     [yY][eE][sS]|[yY]) 
@@ -191,10 +191,10 @@ sudo systemctl stop slapd && sudo slapindex -F /etc/ldap/slapd.d && sudo systemc
 # 5. Load LDIF data
 
 echo "📇 Loading data into LDAP..."
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $BASE_DIR/src/ldifs/1.ou.ldif
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $BASE_DIR/src/ldifs/2.users.ldif
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $BASE_DIR/src/ldifs/3.groups.ldif
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $BASE_DIR/src/ldifs/4.photos.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/1.ou.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/2.users.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/3.groups.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/4.photos.ldif"
 echo "✅ LDIF import complete."
 
 
@@ -210,7 +210,7 @@ subject=""
 [ -n "$CERT_O" ]  && subject="$subject/O=$CERT_O"
 subject="$subject/CN=$CERT_CN"
 echo "Using subject: $subject"
-sudo openssl req -x509 -nodes -days "$CERT_DAYS" -newkey rsa:$CERT_KEY_SIZE \
+sudo openssl req -x509 -nodes -days "$CERT_DAYS" -newkey "rsa:$CERT_KEY_SIZE" \
              -keyout /etc/ldap/sasl2/cert.key -out /etc/ldap/sasl2/cert.crt \
              -subj "$subject"
 sudo chown -R openldap:openldap /etc/ldap/sasl2
@@ -243,14 +243,15 @@ sudo -u ldap-ui python3 -m venv /opt/ldap-ui/.venv3
 sudo -u ldap-ui /opt/ldap-ui/.venv3/bin/pip install ldap-ui
 
 echo "--> Creating systemd service for ldap-ui..."
-sudo cat > /opt/ldap-ui/.env << EOF
+
+sudo tee /opt/ldap-ui/.env > /dev/null <<EOF
 BASE_DN=$LDAP_BASE_DN
 LDAP_URL=ldap://127.0.0.1
 LOGIN_ATTR=uid
 BIND_PATTERN=cn=%s,$LDAP_BASE_DN
 EOF
 sudo chown ldap-ui:ldap-ui /opt/ldap-ui.env
-sudo cat > /etc/systemd/system/ldap-ui.service << EOF
+sudo tee /etc/systemd/system/ldap-ui.service > /dev/null <<EOF
 [Unit]
 Description=ldap-ui - Lightweight LDAP Web UI
 After=network.target auditd.service slapd.service
@@ -280,7 +281,7 @@ echo "✅ ldap-ui setup complete. ldap-ui is accessible on port 5000."
 # 7. Okta LDAP Agent
 
 echo "🔐 Install Okta LDAP Agent..."
-sudo dpkg -i $BASE_DIR/OktaLDAPAgent-*.deb
+sudo dpkg -i "$BASE_DIR/OktaLDAPAgent-*.deb"
 sudo tee /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf > /dev/null <<EOF
 orgUrl=https://$OKTA_ORG/
 ldapHost=localhost
@@ -301,7 +302,7 @@ echo "✅ Okta LDAP Agent setup complete."
 echo "🧹 Final cleanup"
 rm -rf /tmp/ldap-setup
 
-echo "→→→ Installation Finished ←←←
+echo "→→→ Installation Finished ←←←"
 echo ""
 echo "✅ OpenLDAP, ldap-ui, and the Okta LDAP Agent have been successfully installed and configured."
 echo ""

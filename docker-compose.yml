@@ -63,13 +63,13 @@
     ldap-ui:
       image: dnknth/ldap-ui
       environment:
+        - PYTHONWARNINGS=ignore:Config file '.env' not found.
         - LDAP_URL=ldaps://openldap:636
         - BASE_DN=${LDAP_BASE_DN}
-        - LOGIN_ATTR=uid   # def uid
+        - LOGIN_ATTR=uid
         - BIND_PATTERN=cn=%s,${LDAP_BASE_DN}
         - INSECURE_TLS=true
         - SCHEMA_DN=cn=subSchema
-        - PYTHONWARNINGS=ignore:Config file '.env' not found.
       ports:
         - 127.0.0.1:5000:5000
       restart: unless-stopped
