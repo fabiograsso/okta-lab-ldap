@@ -1,0 +1,42 @@
+name: LDIF Check
+
+on:
+  push:
+    paths:
+      - '**.ldif'
+  pull_request:
+    paths:
+      - '**.ldif'
+
+jobs:
+  ldif-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install OpenLDAP tools (slapadd + schema)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y slapd ldap-utils
+
+      - name: Create temporary slapd.conf with inetOrgPerson schema
+        run: |
+          mkdir -p tmp-ldapdb
+          cat <<EOF > tmp-ldapdb/slapd.conf
+          include         /etc/ldap/schema/core.schema
+          include         /etc/ldap/schema/cosine.schema
+          include         /etc/ldap/schema/inetorgperson.schema
+
+          database        ldif
+          directory       ./tmp-ldapdb/data
+          suffix          "dc=galaxy,dc=universe"
+          EOF
+
+      - name: Validate LDIF files
+        run: |
+          mkdir -p tmp-ldapdb/data
+          for file in $(find . -name '*.ldif' | sort); do
+            echo "Checking $file"
+            slapadd -u -f tmp-ldapdb/slapd.conf -l "$file"
+          done
