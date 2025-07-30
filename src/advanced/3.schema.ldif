@@ -1,0 +1,191 @@
+# Add the new attribute type 'species'
+dn: cn=LucasfilmPerson,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: LucasfilmPerson
+olcAttributeTypes: ( 1.3.6.1.4.1.55555.1.2
+ NAME 'species'
+ DESC 'The species of the person'
+ EQUALITY caseIgnoreMatch
+ SUBSTR caseIgnoreSubstringsMatch
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+ SINGLE-VALUE )
+olcObjectClasses: ( 1.3.6.1.4.1.55555.2.2
+ NAME 'LucasfilmPerson'
+ DESC 'Lucasfilm person attributes'
+ SUP top
+ AUXILIARY
+ MAY ( species ) )
+
+
+# Load the constraint module
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: constraint.la
+
+# Load the constraint overlay on your database
+dn: olcOverlay=constraint,olcDatabase={1}mdb,cn=config
+objectClass: top
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+olcOverlay: constraint
+olcConstraintAttribute: species regex "^(Wookiee|Human|Droid|Gungan|Ewok|Yoda|Clone)$"
+
+
+
+
+
+#####
+
+# Update Luke Skywalker
+dn: uid=luke.skywalker,ou=Jedi,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Leia Organa
+dn: uid=leia.organa,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Han Solo
+dn: uid=han.solo,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Obi-Wan Kenobi
+dn: uid=obiwan.kenobi,ou=Jedi,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Yoda
+dn: uid=yoda,ou=Jedi,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Yoda's species
+
+# Update Chewbacca
+dn: uid=chewbacca,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Wookiee
+
+# Update Padmé Amidala
+dn: uid=padme.amidala,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Lando Calrissian
+dn: uid=lando.calrissian,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Qui-Gon Jinn
+dn: uid=qui-gon.jinn,ou=Jedi,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Mace Windu
+dn: uid=mace.windu,ou=Jedi,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Darth Vader
+dn: uid=darth.vader,ou=Empire,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human (Cyborg)
+
+# Update Darth Sidious
+dn: uid=darth.sidious,ou=Empire,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update Wilhuff Tarkin
+dn: uid=wilhuff.tarkin,ou=Empire,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+# Update C-3PO
+dn: uid=c-3po,ou=Droid,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Droid
+
+# Update R2-D2
+dn: uid=r2-d2,ou=Droid,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Droid
+
+# Update Jar Jar Binks
+dn: uid=jar.jar.binks,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Gungan
+
+# Update Boba Fett
+dn: uid=boba.fett,ou=Resistance,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Clone

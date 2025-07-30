@@ -1,0 +1,95 @@
+#
+# Author: Fabio Grasso <fabio.grasso@okta.com>
+# License: Apache-2.0
+# Version: 1.0.0
+# Description: Docker-compose to start a full LDAP Lab with:
+#              - OpenLDAP with some sample data
+#              - Okta LDAP Agent
+#              - ldap-ui (web management utility for LDAP)
+#              - openssl (to generate the LDAPS certificate)
+# -----------------------------------------------------------------------------
+  services:
+    openldap:
+      build:
+        context: ./docker/openldap
+      restart: unless-stopped
+      environment:
+        - LDAP_ROOT=${LDAP_BASE_DN}
+        - LDAP_PORT_NUMBER=389  #Default: 1389 (non privileged port)
+        - LDAP_ENABLE_TLS=yes
+        - LDAP_LDAPS_PORT_NUMBER=636 #Default: 1636 (non privileged port)
+        - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+        - LDAP_CONFIG_PASSWORD=${LDAP_CONFIG_PASSWORD}
+        - LDAP_ORGANIZATION=${LDAP_ORGANIZATION:-}
+        - LDAP_TLS_CERT_FILE=/certs/cert.crt
+        - LDAP_TLS_KEY_FILE=/certs/cert.key
+        - LDAP_TLS_CA_FILE=/certs/cert.crt
+        - LDAP_SKIP_DEFAULT_TREE=yes
+        - LDAP_CONFIG_ADMIN_ENABLED=yes
+      ports:
+        - "389:389"
+        - "636:636"
+      volumes:
+        - ./data/openldap/:/bitnami/openldap
+        - ./src/ldifs:/ldifs:ro
+        - ./data/certs:/certs:rw
+      healthcheck:
+        test: ["CMD", "ldapsearch", "-Y", "EXTERNAL", "-H", "ldapi:///", "-b", "", "-s", "base"]
+        start_period: 5s
+        timeout: 3s
+        retries: 10
+       
+    okta-ldap-agent:
+      build:
+        context: ./docker/okta-ldap-agent
+        args:
+          DEB_URL: ${DEB_URL:-}
+      platform: linux/amd64 # Workaround for compatibility with MacOS
+      restart: unless-stopped
+      configs:
+        - source: InstallOktaLDAPAgent.conf
+          target: /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf
+      volumes:
+        - ./data/okta/conf/:/opt/Okta/OktaLDAPAgent/conf/
+        - ./data/okta/lib:/var/lib/oktaldapagent/ # Encryption key
+        - ./data/okta/logs:/opt/Okta/OktaLDAPAgent/logs
+        - ./data/certs:/certs:ro
+      stdin_open: true
+      tty: true
+      depends_on:
+        openldap:
+          condition: service_healthy
+
+    ldap-ui:
+      image: dnknth/ldap-ui
+      environment:
+        - PYTHONWARNINGS=ignore:Config file '.env' not found.
+        - LDAP_URL=ldaps://openldap:636
+        - BASE_DN=${LDAP_BASE_DN}
+        - LOGIN_ATTR=uid
+        - BIND_PATTERN=cn=%s,${LDAP_BASE_DN}
+        - INSECURE_TLS=true
+        - SCHEMA_DN=cn=subSchema
+      ports:
+        - 127.0.0.1:5000:5000
+      restart: unless-stopped
+      healthcheck:
+        test: ["CMD", "nc", "-z", "127.0.0.1", "5000"]
+      depends_on:
+        openldap:
+          condition: service_healthy
+
+  configs:
+    InstallOktaLDAPAgent.conf:
+      content: |
+        orgUrl=https://${OKTA_ORG}/ 
+        ldapHost=openldap
+        ldapAdminDN=cn=admin,${LDAP_BASE_DN}
+        ldapAdminPassword=${LDAP_ADMIN_PASSWORD}
+        ldapPort=636
+        ldapSSLPort=636
+        baseDN=${LDAP_BASE_DN}
+        ldapUseSSL=true
+        proxyEnabled=false
+        sslPinningEnabled=true
+        fipsMode=true

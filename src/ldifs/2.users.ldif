@@ -1,0 +1,249 @@
+#-------------------------------------------------
+# USERS
+#-------------------------------------------------
+
+# --- LIGHT SIDE ---
+
+dn: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Luke Skywalker
+givenName: Luke
+sn: Skywalker
+uid: luke.skywalker
+mail: luke.skywalker@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Jedi Knight
+departmentNumber: JEDI-COUNCIL
+manager: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
+o: Jedi
+postalAddress: Lars Moisture Farm, Anchorhead, Tatooine
+displayName: Luke Skywalker
+employeeNumber: 10021
+
+dn: uid=leia.organa,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Leia Organa
+givenName: Leia
+sn: Organa
+uid: leia.organa
+mail: leia.organa@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Princess of Alderaan
+departmentNumber: REBEL-COMMAND
+o: Resistance
+postalAddress: Royal Palace, Aldera, Alderaan
+displayName: Princess Leia
+employeeNumber: 10022
+
+dn: uid=han.solo,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Han Solo
+givenName: Han
+sn: Solo
+uid: han.solo
+mail: han.solo@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Smuggler Captain
+departmentNumber: FREELANCE
+manager: uid=leia.organa,ou=People,dc=galaxy,dc=universe
+o: Resistance
+postalAddress: Docking Bay 94, Mos Eisley, Tatooine
+displayName: Han Solo
+employeeNumber: 10023
+
+dn: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Obi-Wan Kenobi
+givenName: Obi-Wan
+sn: Kenobi
+uid: obiwan.kenobi
+mail: obiwan.kenobi@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Jedi Master
+departmentNumber: JEDI-COUNCIL
+manager: uid=yoda,ou=People,dc=galaxy,dc=universe
+o: Jedi
+postalAddress: Dune Sea Hut, Jundland Wastes, Tatooine
+displayName: Obi-Wan Kenobi
+employeeNumber: 10024
+
+dn: uid=yoda,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Yoda
+givenName: Minch
+sn: Yoda
+uid: yoda
+mail: yoda@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Grand Jedi Master
+departmentNumber: JEDI-COUNCIL
+o: Jedi
+postalAddress: Hut, Swamp, Dagobah
+displayName: Yoda
+employeeNumber: 900
+
+dn: uid=chewbacca,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Chewbacca
+givenName: Chewbacca
+sn: Wookiee
+uid: chewbacca
+mail: chewbacca@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: First Mate & Wookiee Warrior
+departmentNumber: FREELANCE
+manager: uid=han.solo,ou=People,dc=galaxy,dc=universe
+o: Resistance
+postalAddress: Millennium Falcon Co-pilot Seat, Kashyyyk
+displayName: Chewbacca
+employeeNumber: 10025
+
+dn: uid=padme.amidala,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Padmé Amidala
+givenName: Padmé
+sn: Amidala
+uid: padme.amidala
+mail: padme.amidala@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Queen of Naboo
+departmentNumber: ROYAL-HOUSE
+o: Resistance
+postalAddress: Theed Royal Palace, Theed, Naboo
+displayName: Padmé
+employeeNumber: 10026
+
+dn: uid=lando.calrissian,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Lando Calrissian
+givenName: Lando
+sn: Calrissian
+uid: lando.calrissian
+mail: lando.calrissian@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Baron Administrator
+departmentNumber: REBEL-COMMAND
+o: Resistance
+postalAddress: Cloud City, Bespin
+displayName: Lando Calrissian
+employeeNumber: 10027
+
+dn: uid=qui-gon.jinn,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Qui-Gon Jinn
+givenName: Qui-Gon
+sn: Jinn
+uid: qui-gon.jinn
+mail: qui-gon.jinn@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Jedi Master
+departmentNumber: JEDI-COUNCIL
+o: Jedi
+postalAddress: Jedi Temple, Coruscant
+displayName: Qui-Gon Jinn
+employeeNumber: 10028
+
+dn: uid=mace.windu,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Mace Windu
+givenName: Mace
+sn: Windu
+uid: mace.windu
+mail: mace.windu@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Jedi Master
+departmentNumber: JEDI-COUNCIL
+manager: uid=yoda,ou=People,dc=galaxy,dc=universe
+o: Jedi
+postalAddress: Jedi Temple, Coruscant
+displayName: Mace Windu
+employeeNumber: 10029
+
+# --- DARK SIDE ---
+
+dn: uid=darth.vader,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Darth Vader
+givenName: Anakin
+sn: Skywalker
+uid: darth.vader
+mail: darth.vader@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Dark Lord of the Sith
+departmentNumber: IMPERIAL-HIGH-COMMAND
+manager: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
+o: Empire
+postalAddress: Executor Bridge, Death Star, Galactic Empire
+displayName: Darth Vader
+employeeNumber: 501
+
+dn: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Darth Sidious
+givenName: Sheev
+sn: Palpatine
+uid: darth.sidious
+mail: darth.sidious@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Galactic Emperor
+departmentNumber: IMPERIAL-HIGH-COMMAND
+o: Empire
+postalAddress: The Throne Room, Death Star II, Galactic Empire
+displayName: Darth Sidious
+employeeNumber: 1
+
+dn: uid=wilhuff.tarkin,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: Wilhuff Tarkin
+givenName: Wilhuff
+sn: Tarkin
+uid: wilhuff.tarkin
+mail: wilhuff.tarkin@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Grand Moff
+departmentNumber: IMPERIAL-HIGH-COMMAND
+manager: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
+o: Empire
+postalAddress: Death Star Command, Galactic Empire
+displayName: Grand Moff Tarkin
+employeeNumber: 101
+
+# --- DROIDS ---
+
+dn: uid=c-3po,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: C-3PO
+givenName: C
+sn: 3PO
+uid: c-3po
+mail: c-3po@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Protocol Droid
+departmentNumber: DROID-MAINT
+manager: uid=leia.organa,ou=People,dc=galaxy,dc=universe
+o: Droid
+postalAddress: Tantive IV, Consular Ship, Alderaan
+displayName: C-3PO
+employeeNumber: 10003
+
+dn: uid=r2-d2,ou=People,dc=galaxy,dc=universe
+objectClass: inetOrgPerson
+cn: R2-D2
+givenName: R2
+sn: D2
+uid: r2-d2
+mail: r2-d2@atko.email
+userPassword: {SSHA}P@ssword2024!
+title: Astromech Droid
+departmentNumber: DROID-MAINT
+manager: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
+o: Droid
+postalAddress: X-Wing Fighter, Red 5, Rebel Alliance
+displayName: R2-D2
+employeeNumber: 10002
+
+
+## IDEAS FOR SCHEMA EXTENSION
+# Species:	Wookiee, Human, Droid, Clone
+# ou: Jedi department
+# https://starwars.fandom.com/wiki

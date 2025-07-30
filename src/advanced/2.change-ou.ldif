@@ -1,0 +1,117 @@
+# LDIF for reorganizing the directory structure
+
+# --- CREATE NEW ORGANIZATIONAL UNITS ---
+
+dn: ou=Jedi,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Jedi
+
+dn: ou=Resistance,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Resistance
+
+dn: ou=Empire,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Empire
+
+dn: ou=Droid,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Droid
+
+# --- MOVE USERS TO NEW OUs ---
+
+dn: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=luke.skywalker
+deleteoldrdn: 1
+newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
+
+dn: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=obiwan.kenobi
+deleteoldrdn: 1
+newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
+
+dn: uid=yoda,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=yoda
+deleteoldrdn: 1
+newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
+
+dn: uid=qui-gon.jinn,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=qui-gon.jinn
+deleteoldrdn: 1
+newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
+
+dn: uid=mace.windu,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=mace.windu
+deleteoldrdn: 1
+newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
+
+dn: uid=leia.organa,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=leia.organa
+deleteoldrdn: 1
+newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
+
+dn: uid=han.solo,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=han.solo
+deleteoldrdn: 1
+newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
+
+dn: uid=chewbacca,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=chewbacca
+deleteoldrdn: 1
+newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
+
+dn: uid=padme.amidala,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=padme.amidala
+deleteoldrdn: 1
+newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
+
+dn: uid=lando.calrissian,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=lando.calrissian
+deleteoldrdn: 1
+newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
+
+dn: uid=jarjar,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=jarjar
+deleteoldrdn: 1
+newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
+
+dn: uid=darth.vader,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=darth.vader
+deleteoldrdn: 1
+newsuperior: ou=Empire,ou=People,dc=galaxy,dc=universe
+
+dn: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=darth.sidious
+deleteoldrdn: 1
+newsuperior: ou=Empire,ou=People,dc=galaxy,dc=universe
+
+dn: uid=wilhuff.tarkin,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=wilhuff.tarkin
+deleteoldrdn: 1
+newsuperior: ou=Empire,ou=People,dc=galaxy,dc=universe
+
+dn: uid=r2-d2,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=r2-d2
+deleteoldrdn: 1
+newsuperior: ou=Droid,ou=People,dc=galaxy,dc=universe
+
+dn: uid=c-3po,ou=People,dc=galaxy,dc=universe
+changetype: modrdn
+newrdn: uid=c-3po
+deleteoldrdn: 1
+newsuperior: ou=Droid,ou=People,dc=galaxy,dc=universe

@@ -1,0 +1,17 @@
+# --- CREATE NEW ORGANIZATIONAL UNITS ---
+
+dn: ou=Jedi,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Jedi
+
+dn: ou=Resistance,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Resistance
+
+dn: ou=Empire,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Empire
+
+dn: ou=Droid,ou=People,dc=galaxy,dc=universe
+objectClass: organizationalUnit
+ou: Droid
