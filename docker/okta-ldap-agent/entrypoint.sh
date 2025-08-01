@@ -29,11 +29,11 @@ echo "
 echo "🔐 Importing the TLS Certificate in the keytool..."
 if [ -f /certs/cert.crt ]; then
 	KEYTOOL=/opt/Okta/OktaLDAPAgent/jre/bin/keytool
-	KEYPARAMS="-alias openldap -cacerts -noprompt -storepass changeit"
-	if $KEYTOOL -list $KEYPARAMS >/dev/null 2>&1; then
-		$KEYTOOL -delete $KEYPARAMS
+	KEYPARAMS=("-alias" "openldap" "-cacerts" "-noprompt" "-storepass" "changeit")
+	if $KEYTOOL -list "${KEYPARAMS[@]}" >/dev/null 2>&1; then
+		$KEYTOOL -delete "${KEYPARAMS[@]}"
 	fi
-	$KEYTOOL -importcert -file /certs/cert.crt $KEYPARAMS
+	$KEYTOOL -importcert -file /certs/cert.crt "${KEYPARAMS[@]}"
 	echo "✅ Certificate imported."
 else
 	echo "⛔️ Certificate not found: /certs/cert.crt"
