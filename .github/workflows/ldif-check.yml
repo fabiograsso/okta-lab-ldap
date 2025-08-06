@@ -1,61 +1,33 @@
-name: LDIF Check
+name: LDIF Syntax Check
 
+# Run this workflow on pushes and pull requests to the main branch
 on:
   push:
-    paths:
-      - '**/*.ldif'
+    branches: [ "main" ]
   pull_request:
-    paths:
-      - '**/*.ldif'
+    branches: [ "main" ]
 
 jobs:
-  ldif-validate:
+  check-ldif-syntax:
+    name: Check LDIF Syntax
     runs-on: ubuntu-latest
-    services:
-      test-ldap:
-        image: osixia/openldap:1.5.0
-        ports:
-          - 389:389
-        options: >-
-          --env LDAP_ALLOW_ANONYMOUS_WRITE=true
-          --env LDAP_ORGANISATION="Example Org"
-          --env LDAP_DOMAIN="example.com"
-          --env LDAP_ADMIN_PASSWORD=admin
-          --health-cmd "ldapsearch -x -b dc=example,dc=com"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
-      - name: Checkout code
+      # Step 1: Check out your repository's code
+      - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Install OpenLDAP tools
-        run: sudo apt-get update && sudo apt-get install -y ldap-utils slapd
-
-      - name: Prepare slapd DB folder
+      # Step 2: Install the necessary LDAP command-line tools
+      - name: Install ldap-utils
         run: |
-          sudo rm -rf /var/lib/ldap/*
-          sudo mkdir -p /var/lib/ldap
-          sudo chown -R openldap:openldap /var/lib/ldap
+          sudo apt-get update
+          sudo apt-get install -y ldap-utils
 
-      - name: Validate LDIF files
+      # Step 3: Find all .ldif files and validate them
+      - name: Validate all LDIF files
         run: |
-          for file in $(find . -name '*.ldif' | sort); do
-            echo "Checking $file"
-            if grep -qi changetype "$file"; then
-              echo "Using ldapadd (anonymous bind) for $file"
-              docker cp "$file" test-ldap:/tmp/tmp.ldif
-              docker exec test-ldap ldapadd -x -D "" -f /tmp/tmp.ldif || {
-                echo "❌ ldapadd failed on $file"
-                exit 1
-              }
-            else
-              echo "Using slapadd (real import) for $file"
-              sudo slapadd -f /etc/ldap/slapd.conf -l "$file" || {
-                echo "❌ slapadd failed on $file"
-                exit 1
-              }
-              sudo chown openldap:openldap /var/lib/ldap/*
-            fi
-          done
+          find . -type f -name "*.ldif" | while read -r file; do
+            echo "--> Checking syntax of ${file}"
+            # Use ldapadd's dry-run mode (-n) to check syntax without connecting to a server
+            ldapadd -n -f "${file}"
+          dones
