@@ -1,0 +1,137 @@
+##### Update the users
+
+dn: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=leia.organa,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=han.solo,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=yoda,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Yoda
+
+dn: uid=chewbacca,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Wookiee
+
+dn: uid=padme.amidala,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=lando.calrissian,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=qui-gon.jinn,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=mace.windu,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=darth.vader,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=wilhuff.tarkin,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Human
+
+dn: uid=c-3po,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Droid
+
+dn: uid=r2-d2,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Droid
+
+dn: uid=jarjar,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Gungan
+
+dn: uid=boba.fett,ou=People,dc=galaxy,dc=universe
+changetype: modify
+add: objectClass
+objectClass: LucasfilmPerson
+-
+add: species
+species: Clone

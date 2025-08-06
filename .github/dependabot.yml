@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  # Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/docker/openldap"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/docker/okta-ldap-agent"
+    schedule:
+      interval: "weekly"

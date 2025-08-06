@@ -1,0 +1,33 @@
+# Add the new class 'LucasfilmPerson' and attribute type 'species'
+
+dn: cn=LucasfilmPerson,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: LucasfilmPerson
+olcAttributeTypes: ( 1.3.6.1.4.1.55555.1.2
+ NAME 'species'
+ DESC 'The species of the person'
+ EQUALITY caseIgnoreMatch
+ SUBSTR caseIgnoreSubstringsMatch
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+ SINGLE-VALUE )
+olcObjectClasses: ( 1.3.6.1.4.1.55555.2.2
+ NAME 'LucasfilmPerson'
+ DESC 'Lucasfilm person attributes'
+ SUP top
+ AUXILIARY
+ MAY ( species ) )
+
+
+# Load the constraint module
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: constraint.la
+
+# Load the constraint overlay on your database
+dn: olcOverlay=constraint,olcDatabase={1}mdb,cn=config
+objectClass: top
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+olcOverlay: constraint
+olcConstraintAttribute: species regex "^(Wookiee|Human|Droid|Gungan|Ewok|Yoda|Clone)$"
