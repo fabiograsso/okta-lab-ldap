@@ -15,7 +15,7 @@ jobs:
     steps:
       # Step 1: Check out your repository's code
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Step 2: Install the necessary LDAP command-line tools
       - name: Install ldap-utils
