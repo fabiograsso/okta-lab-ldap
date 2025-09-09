@@ -53,7 +53,7 @@ else
 	echo "❌ ERROR: Cannot determine OS version. /etc/os-release not found."
 	exit 1
 fi
-if ! ls "$BASE_DIR/*.deb" 1>/dev/null 2>&1; then
+if ! ls $BASE_DIR/*.deb	 1>/dev/null 2>&1; then
 	echo "❌ ERROR: No Okta LDAP Agent installer (.deb file) found in the '$BASE_DIR' directory."
 	echo "Please download the agent from your Okta Admin Console and place it in that folder before running this script."
 	exit 1
@@ -244,9 +244,9 @@ sudo tee /opt/ldap-ui/.env >/dev/null <<EOF
 BASE_DN=$LDAP_BASE_DN
 LDAP_URL=ldap://127.0.0.1
 LOGIN_ATTR=uid
-BIND_PATTERN=cn=%s,$LDAP_BASE_DN
+BIND_PATTERN=cn=%%s,$LDAP_BASE_DN
 EOF
-sudo chown ldap-ui:ldap-ui /opt/ldap-ui.env
+sudo chown ldap-ui:ldap-ui /opt/ldap-ui/.env
 sudo tee /etc/systemd/system/ldap-ui.service >/dev/null <<EOF
 [Unit]
 Description=ldap-ui - Lightweight LDAP Web UI
@@ -254,6 +254,11 @@ After=network.target auditd.service slapd.service
 BindsTo=slapd.service
 
 [Service]
+Environment="BASE_DN=$LDAP_BASE_DN"
+Environment="LDAP_URL=ldap://127.0.0.1"
+Environment="LOGIN_ATTR=uid"
+Environment="BIND_PATTERN=cn=%%s,$LDAP_BASE_DN"
+
 WorkingDirectory=/opt/ldap-ui
 ExecStart=/opt/ldap-ui/.venv3/bin/ldap-ui --host 0.0.0.0 --port 5000
 Type=simple
@@ -276,7 +281,7 @@ echo "✅ ldap-ui setup complete. ldap-ui is accessible on port 5000."
 # 7. Okta LDAP Agent
 
 echo "🔐 Install Okta LDAP Agent..."
-sudo dpkg -i "$BASE_DIR/OktaLDAPAgent-*.deb"
+sudo dpkg -i $BASE_DIR/OktaLDAPAgent*.deb
 sudo tee /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf >/dev/null <<EOF
 orgUrl=https://$OKTA_ORG/
 ldapHost=localhost
