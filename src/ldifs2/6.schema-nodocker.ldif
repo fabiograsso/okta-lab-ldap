@@ -23,7 +23,7 @@ changetype: add
 cn: module
 objectClass: olcModuleList
 olcModuleLoad: constraint.so
-olcModulePath: /opt/bitnami/openldap/lib/openldap
+olcModulePath: /usr/lib/ldap/
 
 # Load the constraint overlay on your database 
 dn: olcOverlay=constraint,olcDatabase={2}mdb,cn=config

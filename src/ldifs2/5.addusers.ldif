@@ -5,8 +5,8 @@ objectClass: inetOrgPerson
 cn: Jar Jar
 givenName: Jar Jar
 sn: Binks
-uid: jarjar
-mail: jarjar.binks@atko.email
+uid: jarjar@galaxy.local
+mail: jarjar.binks@galaxy.local
 userPassword: {SSHA}P@ssword2024!
 title: Junior Representative
 departmentNumber: GUNGAN-GRAND-ARMY
@@ -21,8 +21,8 @@ objectClass: inetOrgPerson
 cn: Boba Fett
 givenName: Boba
 sn: Fett
-uid: boba.fett
-mail: boba.fett@atko.email
+uid: boba.fett@galaxy.local
+mail: boba.fett@galaxy.local
 userPassword: {SSHA}P@ssword2024!
 title: Bounty Hunter
 departmentNumber: BOUNTY-HUNTERS-GUILD

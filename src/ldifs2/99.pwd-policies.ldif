@@ -1,0 +1,44 @@
+dn: cn=module,cn=config
+changetype: add
+cn: module
+objectClass: olcModuleList
+olcModulePath: /opt/bitnami/openldap/lib/openldap
+olcModuleLoad: ppolicy.so
+
+dn: ou=pwpolicy,dc=galaxy,dc=universe
+changetype: add
+objectClass: organizationalUnit
+objectClass: top
+ou: pwpolicy
+
+dn: olcOverlay=ppolicy,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcPPolicyConfig
+olcOverlay: ppolicy
+olcPPolicyDefault: cn=default,ou=pwpolicy,dc=galaxy,dc=universe
+olcPPolicyHashCleartext: TRUE
+
+dn: cn=default,ou=pwpolicy,dc=galaxy,dc=universe
+changetype: add
+objectClass: person
+objectClass: pwdPolicyChecker
+objectClass: pwdPolicy
+cn: pwpolicy
+sn: pwpolicy
+pwdAttribute: userPassword
+pwdMinAge: 0
+pwdMaxAge: 0
+pwdInHistory: 5
+pwdCheckQuality: 2
+pwdMinLength: 8
+pwdExpireWarning: 432000
+pwdGraceAuthNLimit: 5
+pwdLockout: TRUE
+pwdLockoutDuration: 1800
+pwdMaxFailure: 3
+pwdFailureCountInterval: 0
+pwdReset: FALSE
+pwdMustChange: FALSE
+pwdAllowUserChange: TRUE
+pwdSafeModify: FALSE

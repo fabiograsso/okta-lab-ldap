@@ -7,82 +7,82 @@ objectClass: top
 objectClass: groupOfUniqueNames
 cn: Light-Side
 description: Members of the Light Side of the Force
-uniqueMember: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=leia.organa,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=han.solo,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=yoda,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=chewbacca,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=padme.amidala,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=lando.calrissian,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=qui-gon.jinn,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=mace.windu,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=c-3po,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=r2-d2,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=leia.organa@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=han.solo@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=obiwan.kenobi@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=yoda@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=chewbacca@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=padme.amidala@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=lando.calrissian@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=qui-gon.jinn@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=mace.windu@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=c-3po@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=r2-d2@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Dark-Side,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Dark-Side
 description: Sith Lords and Dark Side Force users
-uniqueMember: uid=darth.vader,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=wilhuff.tarkin,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=darth.vader@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=darth.sidious@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=wilhuff.tarkin@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Droids,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Droids
 description: Intelligent mechanical droid characters
-uniqueMember: uid=c-3po,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=r2-d2,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=c-3po@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=r2-d2@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Rebel-Alliance,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Rebel-Alliance
 description: Members of the Rebel Alliance fighting the Galactic Empire
-uniqueMember: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=leia.organa,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=han.solo,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=chewbacca,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=r2-d2,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=c-3po,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=lando.calrissian,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=leia.organa@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=han.solo@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=chewbacca@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=obiwan.kenobi@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=r2-d2@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=c-3po@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=lando.calrissian@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Galactic-Empire,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Galactic-Empire
 description: Commanders and officers of the Galactic Empire
-uniqueMember: uid=darth.vader,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=darth.sidious,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=wilhuff.tarkin,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=darth.vader@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=darth.sidious@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=wilhuff.tarkin@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Jedi-Council,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Jedi-Council
 description: Senior members of the Jedi Council
-uniqueMember: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=obiwan.kenobi,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=yoda,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=qui-gon.jinn,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=mace.windu,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=obiwan.kenobi@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=yoda@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=qui-gon.jinn@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=mace.windu@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Pilots,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Pilots
 description: Skilled pilots from various factions
-uniqueMember: uid=luke.skywalker,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=han.solo,ou=People,dc=galaxy,dc=universe
-uniqueMember: uid=darth.vader,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=han.solo@galaxy.local,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=darth.vader@galaxy.local,ou=People,dc=galaxy,dc=universe
 
 dn: cn=Naboo-Delegation,ou=Groups,dc=galaxy,dc=universe
 objectClass: top
 objectClass: groupOfUniqueNames
 cn: Naboo-Delegation
 description: Naboo planetary representatives and leaders
-uniqueMember: uid=padme.amidala,ou=People,dc=galaxy,dc=universe
+uniqueMember: uid=padme.amidala@galaxy.local,ou=People,dc=galaxy,dc=universe
