@@ -188,10 +188,10 @@ sudo systemctl stop slapd && sudo slapindex -F /etc/ldap/slapd.d && sudo systemc
 # 5. Load LDIF data
 
 echo "📇 Loading data into LDAP..."
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/1.ou.ldif"
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/2.users.ldif"
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/3.groups.ldif"
-sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs/4.photos.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs-base/1.ou.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs-base/2.users.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs-base/3.groups.ldif"
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f "$BASE_DIR/src/ldifs-base/4.photos.ldif"
 echo "✅ LDIF import complete."
 
 # 6. LDAPS [todo]

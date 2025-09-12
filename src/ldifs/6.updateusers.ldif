@@ -119,19 +119,3 @@ objectClass: LucasfilmPerson
 -
 add: species
 species: Droid
-
-dn: uid=jarjar@galaxy.local,ou=People,dc=galaxy,dc=universe
-changetype: modify
-add: objectClass
-objectClass: LucasfilmPerson
--
-add: species
-species: Gungan
-
-dn: uid=boba.fett@galaxy.local,ou=People,dc=galaxy,dc=universe
-changetype: modify
-add: objectClass
-objectClass: LucasfilmPerson
--
-add: species
-species: Clone
