@@ -31,8 +31,8 @@
         - "636:636"
       volumes:
         - ./data/openldap/:/bitnami/openldap
-        - ./src/ldifs/:/ldifs:ro
-        - ./src/ldifs2/:/src/ldifs:ro
+        - ./src/ldifs-base/:/ldifs:ro
+        - ./src/ldifs/:/src/ldifs:ro
         - ./data/certs/:/certs:rw
       healthcheck:
         test: ["CMD", "ldapsearch", "-Y", "EXTERNAL", "-H", "ldapi:///", "-b", "", "-s", "base"]

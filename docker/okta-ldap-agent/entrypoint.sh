@@ -43,13 +43,15 @@ fi
 # Loop until both config files exist and contain the required keys
 MAIN_CONF_FILE="/opt/Okta/OktaLDAPAgent/conf/OktaLDAPAgent.conf"
 ADDITIONAL_CONF_FILE="/var/lib/oktaldapagent/AdditionalOktaLDAPAgent.conf"
+KEYSTORE="/var/lib/oktaldapagent/security/OktaLdapKeystore.p12"
 while true; do
-	if [[ -f "$MAIN_CONF_FILE" && -f "$ADDITIONAL_CONF_FILE" ]] &&
+	if [[ -f "$MAIN_CONF_FILE" && -f "$ADDITIONAL_CONF_FILE" && -f "$KEYSTORE" ]] &&
 		grep -qE "^agentId = " "$MAIN_CONF_FILE" &&
 		grep -qE "^orgUrl = " "$MAIN_CONF_FILE" &&
 		grep -qE "^clientId = " "$MAIN_CONF_FILE" &&
 		grep -qE "^agentKey = " "$MAIN_CONF_FILE" &&
-		grep -qE "^propertyKey = " "$ADDITIONAL_CONF_FILE"; then
+		grep -qE "^keystoreKey = " "$ADDITIONAL_CONF_FILE" &&
+		grep -qE "^keyPassword = " "$ADDITIONAL_CONF_FILE"; then
 		echo "✅  Configuration files are ready. Starting the LDAP Agent..."
 		sleep 2
 		break

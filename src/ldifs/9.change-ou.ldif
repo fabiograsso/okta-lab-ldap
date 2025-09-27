@@ -2,96 +2,96 @@
 
 dn: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=luke.skywalker
+newrdn: uid=luke.skywalker@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
 
 dn: uid=obiwan.kenobi@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=obiwan.kenobi
+newrdn: uid=obiwan.kenobi@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
 
 dn: uid=yoda@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=yoda
+newrdn: uid=yoda@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
 
 dn: uid=qui-gon.jinn@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=qui-gon.jinn
+newrdn: uid=qui-gon.jinn@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
 
 dn: uid=mace.windu@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=mace.windu
+newrdn: uid=mace.windu@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Jedi,ou=People,dc=galaxy,dc=universe
 
 dn: uid=leia.organa@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=leia.organa
+newrdn: uid=leia.organa@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
 
 dn: uid=han.solo,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=han.solo
+newrdn: uid=han.solo@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
 
 dn: uid=chewbacca@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=chewbacca
+newrdn: uid=chewbacca@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
 
 dn: uid=padme.amidala@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=padme.amidala
+newrdn: uid=padme.amidala@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
 
 dn: uid=lando.calrissian@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=lando.calrissian
+newrdn: uid=lando.calrissian@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
 
 dn: uid=jarjar@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=jarjar
+newrdn: uid=jarjar@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Resistance,ou=People,dc=galaxy,dc=universe
 
 dn: uid=darth.vader@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=darth.vader
+newrdn: uid=darth.vader@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Empire,ou=People,dc=galaxy,dc=universe
 
 dn: uid=darth.sidious@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=darth.sidious
+newrdn: uid=darth.sidious@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Empire,ou=People,dc=galaxy,dc=universe
 
 dn: uid=wilhuff.tarkin@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=wilhuff.tarkin
+newrdn: uid=wilhuff.tarkin@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Empire,ou=People,dc=galaxy,dc=universe
 
 dn: uid=r2-d2@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=r2-d2
+newrdn: uid=r2-d2@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Droid,ou=People,dc=galaxy,dc=universe
 
 dn: uid=c-3po@galaxy.local,ou=People,dc=galaxy,dc=universe
 changetype: modrdn
-newrdn: uid=c-3po
+newrdn: uid=c-3po@galaxy.local
 deleteoldrdn: 1
 newsuperior: ou=Droid,ou=People,dc=galaxy,dc=universe
