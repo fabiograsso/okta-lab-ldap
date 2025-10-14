@@ -19,6 +19,7 @@ COPY entrypoint.sh /opt/bitnami/scripts/openldap/custom-entrypoint.sh
 RUN chmod +x "/opt/bitnami/scripts/openldap/custom-entrypoint.sh"
 
 USER 1001
+WORKDIR /
 
 # Override entrypoint
 ENTRYPOINT ["/opt/bitnami/scripts/openldap/custom-entrypoint.sh"]

@@ -34,7 +34,7 @@
         - ./data/certs/:/certs:rw
       healthcheck:
         test: ["CMD", "ldapsearch", "-Y", "EXTERNAL", "-H", "ldapi:///", "-b", "", "-s", "base"]
-        start_period: 5s
+        start_period: 10s
         timeout: 3s
         retries: 10
        

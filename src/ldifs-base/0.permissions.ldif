@@ -1,0 +1,14 @@
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * 
+ by dn.base="gidNumber=0+uidNumber=1001,cn=peercred,cn=external,cn=auth" manage 
+ by dn.base="cn=config" manage 
+ by * none
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * 
+ by dn.base="gidNumber=0+uidNumber=1001,cn=peercred,cn=external,cn=auth" manage 
+ by * read
