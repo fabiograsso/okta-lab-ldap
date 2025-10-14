@@ -1,4 +1,4 @@
-FROM debian:12-slim
+FROM debian:13-slim
 
 LABEL maintainer="Fabio Gasso <fabio.grasso@okta.com>"
 LABEL org.opencontainers.image.authors="Fabio Gasso <fabio.grasso@okta.com>"
