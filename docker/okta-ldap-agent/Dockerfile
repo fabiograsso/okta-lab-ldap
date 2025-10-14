@@ -25,6 +25,6 @@ RUN \
     chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint.sh && \
     rm -rf /tmp/package/ && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
 
-HEALTHCHECK --start-period=10s CMD /usr/local/bin/healthcheck.sh
+HEALTHCHECK --start-period=10s CMD pgrep -f "OktaLDAPAgent" >/dev/null || { echo "Okta LDAP Agent is not running"; exit 1; }
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
