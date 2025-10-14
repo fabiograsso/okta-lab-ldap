@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Author: Fabio Grasso <fabio.grasso@okta.com>
 # Version: 1.0.0
