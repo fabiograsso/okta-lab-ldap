@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.description="Okta LDAP Agent"
 
 ARG DEB_URL
 
-RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends sudo curl net-tools && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
+RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends sudo curl net-tools ldap-utils && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
 
 COPY package/ /tmp/package/
 COPY healthcheck.sh /usr/local/bin/healthcheck.sh
@@ -24,6 +24,7 @@ RUN \
     dpkg -i /tmp/package/*.deb && \
     chmod +x /usr/local/bin/healthcheck.sh && chmod +x /usr/local/bin/entrypoint.sh && \
     rm -rf /tmp/package/ && rm -rf /var/lib/apt/lists/* && rm -rf /var/log/apt && rm -rf /var/log/dpkg.log
+
 
 HEALTHCHECK --start-period=10s CMD pgrep -f "OktaLDAPAgent" >/dev/null || { echo "Okta LDAP Agent is not running"; exit 1; }
 

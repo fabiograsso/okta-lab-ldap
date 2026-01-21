@@ -15,10 +15,10 @@
       restart: unless-stopped
       environment:
         - LDAP_ROOT=${LDAP_BASE_DN}
-        - LDAP_ENABLE_TLS=yes
         - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
         - LDAP_CONFIG_PASSWORD=${LDAP_CONFIG_PASSWORD}
         - LDAP_ORGANIZATION=${LDAP_ORGANIZATION:-}
+        - LDAP_ENABLE_TLS=yes
         - LDAP_TLS_CERT_FILE=/certs/cert.crt
         - LDAP_TLS_KEY_FILE=/certs/cert.key
         - LDAP_TLS_CA_FILE=/certs/cert.crt
@@ -45,15 +45,15 @@
           DEB_URL: ${DEB_URL:-}
       platform: linux/amd64 # Workaround for compatibility with MacOS
       restart: unless-stopped
-      configs:
-        - source: InstallOktaLDAPAgent.conf
-          target: /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf
       volumes:
         - ./data/okta/conf/:/opt/Okta/OktaLDAPAgent/conf/
         - ./data/okta/lib:/var/lib/oktaldapagent/ # Encryption key
         - ./data/okta/logs:/opt/Okta/OktaLDAPAgent/logs
         - ./data/certs:/certs:ro
       stdin_open: true
+      environment:
+        - OKTA_ORG=${OKTA_ORG}
+        - LDAP_BASE_DN=${LDAP_BASE_DN}
       tty: true
       depends_on:
         openldap:
@@ -77,18 +77,3 @@
       depends_on:
         openldap:
           condition: service_healthy
-
-  configs:
-    InstallOktaLDAPAgent.conf:
-      content: |
-        orgUrl=https://${OKTA_ORG}/ 
-        ldapHost=openldap
-        ldapAdminDN=cn=admin,${LDAP_BASE_DN}
-        ldapAdminPassword=${LDAP_ADMIN_PASSWORD}
-        ldapPort=1636
-        ldapSSLPort=1636
-        baseDN=${LDAP_BASE_DN}
-        ldapUseSSL=true
-        proxyEnabled=false
-        sslPinningEnabled=true
-        fipsMode=true
