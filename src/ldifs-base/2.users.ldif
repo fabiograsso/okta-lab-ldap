@@ -2,6 +2,8 @@
 # USERS
 #-------------------------------------------------
 
+# Password for all users: P@ssword2024!
+
 # --- LIGHT SIDE ---
 
 dn: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -11,7 +13,7 @@ givenName: Luke
 sn: Skywalker
 uid: luke.skywalker@galaxy.local
 mail: luke.skywalker@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Jedi Knight
 departmentNumber: JEDI-COUNCIL
 manager: uid=obiwan.kenobi@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -27,7 +29,7 @@ givenName: Leia
 sn: Organa
 uid: leia.organa@galaxy.local
 mail: leia.organa@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Princess of Alderaan
 departmentNumber: REBEL-COMMAND
 o: Resistance
@@ -42,7 +44,7 @@ givenName: Han
 sn: Solo
 uid: han.solo@galaxy.local
 mail: han.solo@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Smuggler Captain
 departmentNumber: FREELANCE
 manager: uid=leia.organa@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -58,7 +60,7 @@ givenName: Obi-Wan
 sn: Kenobi
 uid: obiwan.kenobi@galaxy.local
 mail: obiwan.kenobi@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Jedi Master
 departmentNumber: JEDI-COUNCIL
 manager: uid=yoda@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -74,7 +76,7 @@ givenName: Minch
 sn: Yoda
 uid: yoda@galaxy.local
 mail: yoda@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Grand Jedi Master
 departmentNumber: JEDI-COUNCIL
 o: Jedi
@@ -89,7 +91,7 @@ givenName: Chewbacca
 sn: Wookiee
 uid: chewbacca@galaxy.local
 mail: chewbacca@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: First Mate & Wookiee Warrior
 departmentNumber: FREELANCE
 manager: uid=han.solo@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -105,7 +107,7 @@ givenName: Padmé
 sn: Amidala
 uid: padme.amidala@galaxy.local
 mail: padme.amidala@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Queen of Naboo
 departmentNumber: ROYAL-HOUSE
 o: Resistance
@@ -120,7 +122,7 @@ givenName: Lando
 sn: Calrissian
 uid: lando.calrissian@galaxy.local
 mail: lando.calrissian@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Baron Administrator
 departmentNumber: REBEL-COMMAND
 o: Resistance
@@ -135,7 +137,7 @@ givenName: Qui-Gon
 sn: Jinn
 uid: qui-gon.jinn@galaxy.local
 mail: qui-gon.jinn@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Jedi Master
 departmentNumber: JEDI-COUNCIL
 o: Jedi
@@ -150,7 +152,7 @@ givenName: Mace
 sn: Windu
 uid: mace.windu@galaxy.local
 mail: mace.windu@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Jedi Master
 departmentNumber: JEDI-COUNCIL
 manager: uid=yoda@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -168,7 +170,7 @@ givenName: Anakin
 sn: Skywalker
 uid: darth.vader@galaxy.local
 mail: darth.vader@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Dark Lord of the Sith
 departmentNumber: IMPERIAL-HIGH-COMMAND
 manager: uid=darth.sidious@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -184,7 +186,7 @@ givenName: Sheev
 sn: Palpatine
 uid: darth.sidious@galaxy.local
 mail: darth.sidious@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Galactic Emperor
 departmentNumber: IMPERIAL-HIGH-COMMAND
 o: Empire
@@ -199,7 +201,7 @@ givenName: Wilhuff
 sn: Tarkin
 uid: wilhuff.tarkin@galaxy.local
 mail: wilhuff.tarkin@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Grand Moff
 departmentNumber: IMPERIAL-HIGH-COMMAND
 manager: uid=darth.sidious@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -217,7 +219,7 @@ givenName: C
 sn: 3PO
 uid: c-3po@galaxy.local
 mail: c-3po@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Protocol Droid
 departmentNumber: DROID-MAINT
 manager: uid=leia.organa@galaxy.local,ou=People,dc=galaxy,dc=universe
@@ -233,7 +235,7 @@ givenName: R2
 sn: D2
 uid: r2-d2@galaxy.local
 mail: r2-d2@galaxy.local
-userPassword: {SSHA}P@ssword2024!
+userPassword: {SSHA}e1NTSEF9aVFFSEV5azhGZzNhd0NHalUwbVRBWDJlcDJwUmYrLzY=
 title: Astromech Droid
 departmentNumber: DROID-MAINT
 manager: uid=luke.skywalker@galaxy.local,ou=People,dc=galaxy,dc=universe
