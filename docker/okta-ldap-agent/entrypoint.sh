@@ -71,10 +71,10 @@ chown -R OktaLDAPService:OktaLDAPService /var/lib/oktaldapagent
 while true; do
 	if [[ -f "$MAIN_CONF_FILE" && -f "$ADDITIONAL_CONF_FILE" && -f "$KEYSTORE" ]] &&
 		grep -qE "^orgUrl =" "$MAIN_CONF_FILE" &&
-		grep -qE "^agentRegistrationToken = " "$MAIN_CONF_FILE" &&
+		grep -qE "^ldapAdminPassword = " "$MAIN_CONF_FILE" &&
 		grep -qE "^keystoreKey = " "$ADDITIONAL_CONF_FILE" &&
 		grep -qE "^keyPassword = " "$ADDITIONAL_CONF_FILE"; then
-		echo "✅  Configuration files are ready. Starting the LDAP Agent..."
+		echo "✅ Configuration files are ready. Starting the LDAP Agent..."
 		sleep 2
 		break
 	fi
