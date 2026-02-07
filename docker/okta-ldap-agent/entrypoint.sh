@@ -83,4 +83,5 @@ while true; do
 done
 
 # Start the agent, log to stdout
-exec /opt/Okta/OktaLDAPAgent/scripts/OktaLDAPAgent 2>&1
+exec /opt/Okta/OktaLDAPAgent/scripts/OktaLDAPAgent 2>&1 &
+tail -f /opt/Okta/OktaLDAPAgent/logs/agent.log 

@@ -70,7 +70,7 @@
         - INSECURE_TLS=true
         - SCHEMA_DN=cn=subSchema
       ports:
-        - 127.0.0.1:5000:5000
+        - 5000:5000
       restart: unless-stopped
       healthcheck:
         test: ["CMD", "nc", "-z", "127.0.0.1", "5000"]

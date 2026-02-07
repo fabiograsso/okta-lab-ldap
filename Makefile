@@ -27,7 +27,7 @@ start: check-prereqs
 	@echo "--> Starting containers in detached mode..."
 	@docker compose up -d
 
-star-live: check-prereqs
+start-live: check-prereqs
 	@echo "--> Starting containers in detached mode..."
 	@docker compose up
 
@@ -49,11 +49,11 @@ start-logs: check-prereqs
 
 restart-logs: stop start-logs
 
-rebuild:
+rebuild: check-prereqs-build
 	@echo "--> Forcing a rebuild of all images..."
 	@docker compose build --no-cache --parallel --pull --force-rm
 
-build:
+build: check-prereqs-build
 	@echo "--> Build all images..."
 	@docker compose build
 
@@ -84,3 +84,27 @@ check-prereqs:
 	done
 	@echo "  [✔] Required environment variables are set."
 	@echo "--> Prerequisites check passed."
+
+	
+
+check-prereqs-build:
+	@echo "--> Checking prerequisites..."
+	@# 1. Check for the Okta agent installer file
+	@if ! ls ./docker/okta-ldap-agent/package/OktaLDAPAgent-*.deb 1>/dev/null 2>&1; then \
+		echo "\033[0;31mERROR: Okta Agent installer (.deb) not found!\033[0m"; \
+		echo "Please place the downloaded agent file in the './docker/okta-agent/package/' directory."; \
+		exit 1; \
+	fi
+	@echo "  [✔] Okta Agent installer found."
+	@# 2. Check that specific required variables are not empty
+	@for var in OKTA_ORG LDAP_BASE_DN LDAP_ADMIN_PASSWORD LDAP_CONFIG_PASSWORD; do \
+		if [ -z "$${!var}" ]; then \
+			echo "\033[0;31mERROR: Environment variable '$${var}' is not set or is empty.\033[0m"; \
+			echo "Please check your .env file."; \
+			exit 1; \
+		fi; \
+	done
+	@echo "  [✔] Required environment variables are set."
+	@echo "--> Prerequisites check passed."
+
+	
