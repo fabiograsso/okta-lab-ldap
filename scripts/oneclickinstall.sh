@@ -162,7 +162,13 @@ olcAccess: {0}to *
 dn: olcDatabase={1}mdb,cn=config
 changetype: modify
 replace: olcAccess
-olcAccess: {0}to * 
+olcAccess: {0}to attrs=userPassword
+  by self write
+  by anonymous auth
+  by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
+  by dn.base="$LDAP_ADMIN_DN" manage
+  by * none
+olcAccess: {1}to *
   by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
   by dn.base="$LDAP_ADMIN_DN" manage
   by * none
@@ -281,6 +287,8 @@ echo "✅ ldap-ui setup complete. ldap-ui is accessible on port 5000."
 # 7. Okta LDAP Agent
 
 echo "🔐 Install Okta LDAP Agent..."
+sudo dpkg --purge --force-all oktaldapagent 2>/dev/null || true
+sudo rm -rf /opt/Okta/OktaLDAPAgent 2>/dev/null || true
 sudo dpkg -i $BASE_DIR/OktaLDAPAgent*.deb
 sudo tee /opt/Okta/OktaLDAPAgent/conf/InstallOktaLDAPAgent.conf >/dev/null <<EOF
 orgUrl=https://$OKTA_ORG/
